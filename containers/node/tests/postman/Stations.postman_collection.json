@@ -1,0 +1,155 @@
+{
+	"info": {
+		"_postman_id": "c1c8ebd5-2748-4759-92b4-98eb900b0c43",
+		"name": "Stations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "init",
+			"item": [
+				{
+					"name": "GET /init",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "94cca6a3-1e5d-479d-8443-d44d198b8b86",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{login_jwttoken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{initUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{initUrl}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "stations",
+			"item": [
+				{
+					"name": "GET /stations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "00db0236-a08d-455e-aa69-04c6357178dc",
+								"exec": [
+									"if (!data.errors) {",
+									"    let stations = JSON.parse(responseBody);",
+									"",
+									"    let station = stations.length ? stations[stations.length - 1] : { id: \"\" };",
+									"",
+									"    pm.environment.set(\"stationId_\", station._id)",
+									"    pm.environment.set(\"station\", JSON.stringify(station))",
+									"    pm.environment.set(\"stations\", JSON.stringify(stations));",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{stationsUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{stationsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /stations/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c676e96b-c14f-4af8-9995-cee4172f4042",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let station = JSON.parse(responseBody);",
+									"        let stations = (pm.environment.get(\"stations\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"stations\")))) ? [] : JSON.parse(pm.environment.get(\"stations\"));",
+									"",
+									"        //Setting new value for station, if Reset",
+									"        let stationIndex = stations.findIndex(currItem => currItem._id === station._id);",
+									"        if (stationIndex >= 0) {",
+									"            stations[stationIndex] = station;",
+									"        } else {",
+									"            stations.push(station);",
+									"        }",
+									"",
+									"        pm.environment.set(\"stationId_\", station._id);",
+									"        pm.environment.set(\"station\", JSON.stringify(station));",
+									"        pm.environment.set(\"stations\", JSON.stringify(stations));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{stationsUrl}}/{{stationId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{stationsUrl}}",
+								"{{stationId_}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "e23369e3-ee3d-4325-975c-f4ef4f650984",
+			"key": "url",
+			"value": "localhost:4001",
+			"type": "string"
+		},
+		{
+			"id": "84d4241b-e01b-4a77-93e4-9d597de1d9d3",
+			"key": "todo",
+			"value": "todo",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
