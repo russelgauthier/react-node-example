@@ -1,0 +1,43 @@
+query {
+    companyflats(
+        predicates: {
+            typeTestTripleNested: {
+                a: {
+                    b: { c: { eq: "CCC", gt: "AAA" }, d: { eq: "DDDD" } }
+                    e: { eq: "EEEEE" }
+                }
+            },
+            typeTestTripleNestedArray:{
+                elemMatch_:{
+                    a: {
+                        b: {
+                            c: { eq: "CCC"},
+                            d: { eq: "DDDD" }
+                        }
+                        e: { eq: "EEEEE" }
+                    }
+                }
+            }
+        }
+    ) {
+        typeTestTripleNested {
+            a {
+                b {
+                    c
+                    d
+                }
+                e
+            }
+        }
+        typeTestTripleNestedArray {
+            a {
+                b {
+                    c
+                    d
+                }
+                e
+            }
+        }
+        _id
+    }
+}

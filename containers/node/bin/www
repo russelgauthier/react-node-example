@@ -1,0 +1,132 @@
+#!/usr/bin/env node
+/**
+ * Author: Russel Gauthier(c) <russel@russelgauthier.com> - All Rights Reserved
+ * 
+ * Consult LICENCE file for more details
+ *
+**/
+
+/**
+* Module dependencies
+*/
+//const {env} = require('./../config/config'); //Only used when stand alone. Should come from environment variables.
+const {app} = require('./../app');
+const debug = require('debug')('dexios-webservice:server');
+
+let http = require('http');
+
+//let debug = require('debug')('dexios-webservice:server'); //TODO: test
+
+/**
+ * Get port from environment and store in Express.
+ */
+const port = normalizePort(process.env.PORT_HTTP || process.env.PORT || env.port || 3000);
+app.set('port', port);
+
+
+/**
+ * Create HTTP server & provide handlers for errors and handling
+ */
+let server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+process.on('SIGINT', onSigInt);
+process.on('SIGTERM', onSigTerm)
+
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+function normalizePort(val) {
+  let port = parseInt(val, 10);
+
+  //named pipe
+  if(isNaN(port)) {
+    return val;
+  }
+
+  //port name
+  if(port >= 0){
+    return port;
+  }
+
+  return false;
+}
+
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening() {
+  let addr = server.address();
+  let bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  console.info('Listening on ' + bind);
+}
+
+/**
+* Event for SIGINT of process
+*/
+function onSigInt(){
+  console.info(`SIGINT received: ${new Date().toISOString()}`);
+
+  shutdown(); 
+}
+
+/**
+* Event for SIGTERM of process
+*/
+function onSigTerm(){
+  console.info(`SIGINT received: ${new Date().toISOString()}`);
+
+  shutdown();
+}
+
+/**
+* Closes the process, at the end, cleanly
+**/
+function shutdown(){
+  server.close(function onServerClosed(err){
+    if(err){
+      console.error(err);
+      process.exitCode = 1;
+    }
+
+    process.exit();
+  });
+}

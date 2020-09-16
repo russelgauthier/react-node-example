@@ -1,0 +1,19 @@
+@import 'src/css/includes/main';
+
+.topLevel {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1em;
+  padding-top: 1em;
+
+  .title, .detailsConfig, .status {
+    label {
+      font-weight: bold;
+    }
+  }
+  .detailsConfig, .status {
+    display: flex;
+    > * {
+      margin-right: 1em;
+    }
+  }
+}

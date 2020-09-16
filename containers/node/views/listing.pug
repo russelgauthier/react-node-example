@@ -1,0 +1,16 @@
+extends layout
+block content
+    main(id='listing-page')
+        section(class='left-column')
+            ul(class='job-list')
+                each job in jobs
+                    li(class='job-card')
+                        p(class='job-title')= job.title
+                        p(class='job-description')= job.description
+        section(class='right-column')
+            p Full description from the right about this Full description from the right about this Full description from the right about this Full description from the right about this
+
+
+
+
+

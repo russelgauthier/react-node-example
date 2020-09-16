@@ -1,0 +1,67 @@
+version: "3.7"
+services:
+  next:
+    image: russelgauthier/ax-next
+    build:
+      context: next
+      dockerfile: Dockerfile
+    restart: unless-stopped
+#    ports:
+#      - ${NEXT__PORT_HOST}:${NEXT__PORT_CONTAINER}
+#      - ${NEXT__DEBUG__PORT_HOST}:${NEXT__DEBUG__PORT_CONTAINER}
+    volumes:
+      - ./next/components:/usr/src/app/components
+      - ./next/pages:/usr/src/app/pages
+      - ./next/public:/usr/src/app/public
+      - ./next/src:/usr/src/app/src
+  node_express:
+    image: russelgauthier/ax-nodeexpress
+    build:
+      context: ./node
+      dockerfile: Dockerfile
+    restart: unless-stopped
+#    ports:
+#      - ${NODE_EXPRESS__PORT_HOST}:${NODE_EXPRESS__PORT_CONTAINER}
+#      - ${NODE_EXPRESS__DEBUG__PORT_HOST}:${NODE_EXPRESS__DEBUG__PORT_CONTAINER}
+    volumes:
+      - ./node/libs:/usr/src/app/libs
+      - ./node/middleware:/usr/src/app/middleware
+      - ./node/models:/usr/src/app/models
+      - ./node/public:/usr/src/app/public
+      - ./node/routes:/usr/src/app/routes
+      - ./node/tests:/usr/src/app/tests
+      - ./node/views:/usr/src/app/views
+    environment:
+      - MONGODB_URI=mongodb://${MONGO__USER_MAIN}:${MONGO__USER_MAIN_PWD}@mongo:${MONGO__PORT_HOST}/${MONGO__DB_NAME}
+      - MONGODB_DATABASE=${MONGO__DB_NAME}
+      - NODE_CONFIG_FILE=config.json
+      - REDISGRAPH__PORT_HOST=${REDISGRAPH__PORT_HOST}
+      - REDISGRAPH__PORT_CONTAINER=${REDISGRAPH__PORT_CONTAINER}
+  mongo:
+    image: russelgauthier/ax-mongo
+    build:
+      context: ./mongo
+      dockerfile: Dockerfile
+    restart: unless-stopped
+#    ports:
+#      - ${MONGO__PORT_HOST}:${MONGO__PORT_CONTAINER}
+    volumes:
+      - "./mongo:/bitnami/mongodb"
+    environment:
+      - MONGODB_ROOT_PASSWORD=${MONGO__ROOT_PWD}
+      - MONGODB_USERNAME=${MONGO__USER_MAIN}
+      - MONGODB_PASSWORD=${MONGO__USER_MAIN_PWD}
+      - MONGODB_DATABASE=${MONGO__DB_NAME}
+  envoy_proxy:
+    image: russelgauthier/ax-envoy-proxy
+    build:
+      context: ./envoy-proxy
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - ${ENVOY_PROXY__HTTP__PORT_HOST}:${ENVOY_PROXY__HTTP__PORT_CONTAINER}
+      - ${ENVOY_PROXY__ADMIN__PORT_HOST}:${ENVOY_PROXY__ADMIN__PORT_CONTAINER}
+      - ${ENVOY_PROXY__HTTPS__PORT_HOST}:${ENVOY_PROXY__HTTPS__PORT_CONTAINER}
+    volumes:
+      - ./envoy-proxy/envoy-proxy.yaml:/etc/envoy-proxy.yaml
+      - ./envoy-proxy/.localhost-ssl:/etc/ssl-certs/localhost

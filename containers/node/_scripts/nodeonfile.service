@@ -1,0 +1,26 @@
+###
+## Node OnFile Service - Set the directory that is /var/node/bin/www to the location where the node instance is to run
+## /lib/systemd/system/nodeonfile.service
+## useradd node
+## usermod -s /usr/sbin/nologin node
+## ## Ensure that you set the directory to which you are pointing to to be part of the node group, or that the user is part of the node group
+## systemctl daemon-reload
+## systemctl enable nodeonfile
+## service nodeonfile start ##Not necessary after reboot, as it automatically reboots
+###
+[Unit]
+Description=Node Service - Unmounted Location
+After=network.target
+
+[Service]
+User=node
+Group=node
+Type=simple
+ExecStart=/usr/bin/node /var/node/bin/www
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+
+/var/www/_services/_current/bin/www

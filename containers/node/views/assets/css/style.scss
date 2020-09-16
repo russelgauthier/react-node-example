@@ -1,0 +1,33 @@
+$font-family--sans: 'Roboto', sans-serif;
+$font-family--mono: 'Roboto Mono', monospace;
+$font-family--serif: 'Roboto Slab', serif;
+
+html, body {
+    font-family: $font-family--sans;
+    font-size: 16px;
+    font-weight: normal;
+}
+#listing-page {
+    display: flex;
+    flex-direction: row;
+
+    .left-column {
+        width: 30%;
+    }
+    .right-column {
+        width: 70%;
+    }
+    .job-list {
+        .job-card {
+            border: 1px solid rgba(0,0,0,0.1);
+            margin: 1em;
+            list-style: none;
+            .job-title {
+
+            }
+            .job-description {
+
+            }
+        }
+    }
+}

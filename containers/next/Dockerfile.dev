@@ -1,0 +1,32 @@
+FROM node:14.9.0-alpine
+
+ARG root_dir=/usr/src/app
+RUN apk add --update tini \
+	&& mkdir -p $root_dir
+
+#Copying over current base application
+WORKDIR $root_dir
+COPY package.json .
+
+#Installing base dependencies & cleaning up
+RUN apk upgrade --update \
+    && yarn install \
+    && yarn install --dev \
+    && yarn cache clean
+
+COPY next.config.js .
+
+#Main directories to be customized/replaced. Mount alternatives
+VOLUME $root_dir/components
+VOLUME $root_dir/pages
+VOLUME $root_dir/public
+VOLUME $root_dir/src
+
+#Setting main ports
+ENV PORT 80
+EXPOSE 80
+
+#Setting main thread
+#CMD ["echo", "Node started! 🎉"]
+CMD ["tini", "--", "yarn", "dev"]
+

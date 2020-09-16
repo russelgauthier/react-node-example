@@ -1,0 +1,117 @@
+query {
+    companyflat(
+        predicates: {
+            predicateTestBooleanArray: { eq_: [true, false, true] }
+            predicateTestBooleanArrayNull: { eq: null }
+            predicateTestBooleanArrayNullable: { all: null }
+            predicateTestBooleanArrayNullInner: { eq_: [null, null, null]}
+            predicateTestBooleanArrayNullableInner: { ne:false }
+
+            predicateTestDateArray: { gt: "2020-05-11" }
+            predicateTestDateArrayNull: { eq: null }
+            predicateTestDateArrayNullable: { all: null }
+            predicateTestDateArrayNullInner: { eq_: [null, null, null]}
+            predicateTestDateArrayNullableInner: { lt:"2021-06-11" }
+
+            predicateTestDecimal128Array: { all: ["3.3E+13"] }
+            predicateTestDecimal128ArrayNull: { eq: null }
+            predicateTestDecimal128ArrayNullable: { all: null }
+            predicateTestDecimal128ArrayNullInner: { eq_: [null, null, null]}
+            predicateTestDecimal128ArrayNullableInner: { lt:"4.2E+8" }
+
+            predicateTestInt32Array: { all: [17] }
+            predicateTestInt32ArrayNull: { eq: null }
+            predicateTestInt32ArrayNullable: { all: null }
+            predicateTestInt32ArrayNullInner: { eq_: [null, null, null]}
+            predicateTestInt32ArrayNullableInner: { gt:-1 }
+
+            predicateTestLongArray: { all: ["-1207200890665655520"] }
+            predicateTestLongArrayNull: { eq: null }
+            predicateTestLongArrayNullable: { all: null }
+            predicateTestLongArrayNullInner: { eq_: [null, null, null]}
+            predicateTestLongArrayNullableInner: { gt:"9E+5" }
+
+            predicateTestNumberArray: { all: [22.222] }
+            predicateTestNumberArrayNull: { eq: null }
+            predicateTestNumberArrayNullable: { all: null }
+            predicateTestNumberArrayNullInner: { eq_: [null, null, null]}
+            predicateTestNumberArrayNullableInner: { all:[55555.55555] }
+
+            predicateTestObjectIDArray: { all: ["5eef41dabd7cdb0e1522294f"] } #NB:Must be reset when new data is created
+            predicateTestObjectIDArrayNull: { eq: null }
+            predicateTestObjectIDArrayNullable: { all: null }
+            predicateTestObjectIDArrayNullInner: { eq_: [null, null, null]}
+            predicateTestObjectIDArrayNullableInner: { all:["5eef41dabd7cdb0e15222953"] } #NB:Must be reset when new data is created
+
+            predicateTestStringArray: { eq_: ["A", "BB", "CCC", "DDD"] }
+            predicateTestStringArrayNull: { eq: null }
+            predicateTestStringArrayNullable: { eq: null }
+            predicateTestStringArrayNullInner: { eq_: [null, null, null] }
+            predicateTestStringArrayNullableInner: { eq: null }
+        }
+    ) {
+        ## Predicate Boolean Array Tests ###
+        predicateTestBooleanArray
+        predicateTestBooleanArrayNull
+        predicateTestBooleanArrayNullable
+        predicateTestBooleanArrayNullableInner
+        predicateTestBooleanArrayNullInner
+
+        ### Predicate Buffer Array Tests ###
+        predicateTestBufferArray
+        predicateTestBufferArrayNull
+        predicateTestBufferArrayNullable
+        predicateTestBufferArrayNullableInner
+        predicateTestBufferArrayNullInner
+
+        ### Predicate Date Array Tests ###
+        predicateTestDateArray
+        predicateTestDateArrayNull
+        predicateTestDateArrayNullable
+        predicateTestDateArrayNullableInner
+        predicateTestDateArrayNullInner
+
+        ## Predicate Decimal128 Array Tests ###
+        predicateTestDecimal128Array
+        predicateTestDecimal128ArrayNull
+        predicateTestDecimal128ArrayNullable
+        predicateTestDecimal128ArrayNullableInner
+        predicateTestDecimal128ArrayNullInner
+
+        ## Predicate Int32 Array Tests ###
+        predicateTestInt32Array
+        predicateTestInt32ArrayNull
+        predicateTestInt32ArrayNullable
+        predicateTestInt32ArrayNullableInner
+        predicateTestInt32ArrayNullInner
+
+        ## Predicate Long Array Tests ###
+        predicateTestLongArray
+        predicateTestLongArrayNull
+        predicateTestLongArrayNullable
+        predicateTestLongArrayNullableInner
+        predicateTestLongArrayNullInner
+
+        ## Predicate Number Array Tests ###
+        predicateTestNumberArray
+        predicateTestNumberArrayNull
+        predicateTestNumberArrayNullable
+        predicateTestNumberArrayNullableInner
+        predicateTestNumberArrayNullInner
+
+        ### Predicate ObjectID Array Tests ###
+        predicateTestObjectIDArray
+        predicateTestObjectIDArrayNull
+        predicateTestObjectIDArrayNullable
+        predicateTestObjectIDArrayNullableInner
+        predicateTestObjectIDArrayNullInner
+
+        ## Predicate String Array Tests ###
+        predicateTestStringArray
+        predicateTestStringArrayNull
+        predicateTestStringArrayNullable
+        predicateTestStringArrayNullableInner
+        predicateTestStringArrayNullInner
+        _id
+    }
+}

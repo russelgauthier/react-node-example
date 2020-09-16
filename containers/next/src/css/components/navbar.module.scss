@@ -1,0 +1,55 @@
+@import 'src/css/includes/main';
+
+.topLevel {
+  border-bottom: 1px solid #1d695c;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding-top: 0.4em;
+
+  > ol {
+    padding: 0 0 0 0.5em;
+    margin:0 !important;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+    label {
+      font-weight: bold;
+    }
+    > li {
+      margin-right: 3em;
+      padding-bottom: 0;
+
+      > * {
+        margin-right: 1em;
+      }
+    }
+    > li:first-child {
+      > svg {
+        height: 30px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px){
+  .topLevel {
+    //height: 100px;
+
+    > ol {
+      > li:nth-child(2){
+        width: 80%;
+        display: flex;
+        align-items: center;
+
+        > * {
+          width: 30% !important;
+        }
+      }
+    }
+
+    > li {
+    }
+  }
+}

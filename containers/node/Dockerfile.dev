@@ -1,0 +1,43 @@
+FROM node:14.9.0-alpine
+
+ARG root_dir=/usr/src/app
+RUN apk add --update tini \
+	&& mkdir -p $root_dir
+
+#Copying over current base application
+WORKDIR $root_dir
+COPY package.json .
+
+#Installing base dependencies & cleaning up
+RUN apk add --update python make g++ \
+    && yarn install \
+    && yarn install --dev \
+    && yarn global add nodemon \
+    && yarn global add mocha \
+    && yarn cache clean
+
+#Copying over all files
+COPY . .
+
+#Main directories to be customized/replaced. Mount alternatives
+VOLUME $root_dir/libs
+VOLUME $root_dir/middleware
+VOLUME $root_dir/models
+VOLUME $root_dir/public
+VOLUME $root_dir/routes
+VOLUME $root_dir/tests
+VOLUME $root_dir/views
+
+#Setting main ports
+ENV PORT 80
+EXPOSE 80
+
+EXPOSE 4001
+
+ENV PORT_INSPECT 9229
+EXPOSE 9229
+
+#Setting main thread
+#CMD ["echo", "Node started! 🎉"]
+CMD ["tini", "--", "nodemon", "-e", "js,mjs,json", "--inspect=0.0.0.0", "--trace-warnings", "./bin/www"]
+

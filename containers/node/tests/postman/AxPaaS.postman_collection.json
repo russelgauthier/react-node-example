@@ -1,0 +1,4181 @@
+{
+	"info": {
+		"_postman_id": "0a47ddd8-720b-44a8-8ecf-e52a19de9947",
+		"name": "AxPaaS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "init",
+			"item": [
+				{
+					"name": "GET /init",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "980fcb56-f49d-4e5c-b795-a6ef4a074530",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{login_jwttoken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{initUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{initUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /users/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2bee076c-3e96-4697-98ee-ad32239e310c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{jobsUrl}}/{{jobsId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{jobsUrl}}",
+								"{{jobsId_}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "companies",
+			"item": [
+				{
+					"name": "divisions",
+					"item": [
+						{
+							"name": "GET /companies/:id/divisions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f84d449c-412d-4094-85ea-a008d1fcd014",
+										"exec": [
+											"if (!data.errors) {",
+											"    let companyDivisions = JSON.parse(responseBody);",
+											"",
+											"    let companyDivision = companyDivisions.length ? companyDivisions[companyDivisions.length - 1] : { id: \"\" };",
+											"",
+											"    pm.environment.set(\"companyDivisionId_\", companyDivision._id)",
+											"    pm.environment.set(\"companyDivision\", JSON.stringify(companyDivision))",
+											"    pm.environment.set(\"companyDivisions\", JSON.stringify(companyDivisions));",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{login_jwttoken}}"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyDivisionsUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyDivisionsUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /companies/:id/divisions",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "db3872f3-00eb-4943-b764-d702d9b46522",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyDivision = JSON.parse(responseBody);",
+											"        let companyDivisions = (pm.environment.get(\"companyDivisions\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyDivisions\")))) ? [] : JSON.parse(pm.environment.get(\"companyDivisions\"));",
+											"        companyDivisions.push(companyDivision);",
+											"        ",
+											"        pm.environment.set(\"companyDivisionId_\", companyDivision._id);",
+											"        pm.environment.set(\"companyDivision\", JSON.stringify(companyDivision));",
+											"        pm.environment.set(\"companyDivisions\", JSON.stringify(companyDivisions));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"HR\",\n\t\"description\": \"The great HR department\",\n\t\"company\": \"{{companyId_}}\"\n}",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyDivisionsUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyDivisionsUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET /companies/:id/divisions/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "34cb5213-901f-4f16-aad4-dc5ad0dbace6",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyDivision = JSON.parse(responseBody);",
+											"        let companyDivisions = (pm.environment.get(\"companyDivisions\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyDivisions\")))) ? [] : JSON.parse(pm.environment.get(\"companyDivisions\"));",
+											"",
+											"        //Setting new value for companyDivision, if Reset",
+											"        let companyDivisionIndex = companyDivisions.findIndex(currCompanyDivision => currCompanyDivision._id === companyDivision._id);",
+											"        if (companyDivisionIndex >= 0) {",
+											"            companyDivisions[companyDivisionIndex] = companyDivision;",
+											"        } else {",
+											"            companyDivisions.push(companyDivision);",
+											"        }",
+											"",
+											"        pm.environment.set(\"companyDivisionId_\", companyDivision._id);",
+											"        pm.environment.set(\"companyDivision\", JSON.stringify(companyDivision));",
+											"        pm.environment.set(\"companyDivisions\", JSON.stringify(companyDivisions));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyDivisionsUrl}}/{{companyDivisionId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyDivisionsUrl}}",
+										"{{companyDivisionId_}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE /companies/:id/divisions/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0661a4ba-d91a-4b9d-80bb-81c71f5f0c4c",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyDivision = JSON.parse(responseBody);",
+											"        let companyDivisions = (pm.environment.get(\"companyDivisions\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyDivisions\")))) ? [] : JSON.parse(pm.environment.get(\"companyDivisions\"));",
+											"",
+											"        //Resetting companies",
+											"        companyDivisions = companyDivisions.filter(currCompanyDivision => currCompanyDivision._id !== companyDivision._id);",
+											"",
+											"        companyDivision = companyDivisions.length ? companyDivisions[companyDivisions.length - 1] : { id: \"\" }",
+											"",
+											"        pm.environment.set(\"companyDivisionId_\", companyDivision._id);",
+											"        pm.environment.set(\"companyDivision\", JSON.stringify(companyDivision));",
+											"        pm.environment.set(\"companyDivisions\", JSON.stringify(companyDivisions));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyDivisionsUrl}}/{{companyDivisionId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyDivisionsUrl}}",
+										"{{companyDivisionId_}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH /companies/:id/divisions/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f91d6a4e-a418-444f-a863-ff3da33b300c",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyDivision = JSON.parse(responseBody);",
+											"        let companyDivisions = (pm.environment.get(\"companyDivisions\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyDivisions\")))) ? [] : JSON.parse(pm.environment.get(\"companyDivisions\"));",
+											"",
+											"        //Setting new value for companyEmployee, if Reset",
+											"        let companyDivisionIndex = companyDivisions.findIndex(currCompanyDivision => currCompanyDivision._id === companyDivision._id);",
+											"        if (companyDivisionIndex >= 0) {",
+											"            companyDivisions[companyDivisionIndex] = companyDivision;",
+											"        } else {",
+											"            companyDivisions.push(companyDivision);",
+											"        }",
+											"",
+											"        pm.environment.set(\"companyDivisionId_\", companyDivision._id);",
+											"        pm.environment.set(\"companyDivision\", JSON.stringify(companyDivision));",
+											"        pm.environment.set(\"companyDivisions\", JSON.stringify(companyDivisions));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Tech\",\n\t\"description\": \"Tech department 2.0\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyDivisionsUrl}}/{{companyDivisionId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyDivisionsUrl}}",
+										"{{companyDivisionId_}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "employees",
+					"item": [
+						{
+							"name": "GET /companies/:id/employees",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8135aeae-1432-4575-a2de-104b9c6facfa",
+										"exec": [
+											"if (!data.errors) {",
+											"    let companyEmployees = JSON.parse(responseBody);",
+											"",
+											"    let companyEmployee = companyEmployees.length ? companyEmployees[companyEmployees.length - 1] : { id: \"\" };",
+											"",
+											"    pm.environment.set(\"companyEmployeeId_\", companyEmployee._id)",
+											"    pm.environment.set(\"companyEmployee\", JSON.stringify(companyEmployee))",
+											"    pm.environment.set(\"companyEmployees\", JSON.stringify(companyEmployees));",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{login_jwttoken}}"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyEmployeesUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyEmployeesUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /companies/:id/employees",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e3ac6f3e-b9c2-44c7-85e8-105678b5c2b8",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyEmployee = JSON.parse(responseBody);",
+											"        let companyEmployees = (pm.environment.get(\"companyEmployees\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyEmployees\")))) ? [] : JSON.parse(pm.environment.get(\"companyEmployees\"));",
+											"        companyEmployees.push(companyEmployee);",
+											"        ",
+											"        pm.environment.set(\"companyEmployeeId_\", companyEmployee._id);",
+											"        pm.environment.set(\"companyEmployee\", JSON.stringify(companyEmployee));",
+											"        pm.environment.set(\"companyEmployees\", JSON.stringify(companyEmployees));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"job_title\" : \"Super man\",\n    \"description\" :  \"never made any money\",\n    \"firstName\" :  \"Clark\",\n    \"middleName\" :  \"Cal-El\",\n    \"lastName\" :  \"Kent\",\n    \"media\": {\n      \"photos\" : [\n        {\n          \"url\" : \"https://profilepic.com\"\n        }\n      ],\n      \"videos\" : [\n        {\n          \"url\" : \"https://youtube.com/myVid\",\n          \"embedded\" : true,\n          \"provider\" : \"youtube\"\n        }\n      ]\n    }\n  }",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyEmployeesUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyEmployeesUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /companies/:id/employees 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "df3160bf-8cf3-4056-a3a3-e43bf7aff7d3",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyEmployee = JSON.parse(responseBody);",
+											"        let companyEmployees = (pm.environment.get(\"companyEmployees\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyEmployees\")))) ? [] : JSON.parse(pm.environment.get(\"companyEmployees\"));",
+											"        companyEmployees.push(companyEmployee);",
+											"        ",
+											"        pm.environment.set(\"companyEmployeeId_\", companyEmployee._id);",
+											"        pm.environment.set(\"companyEmployee\", JSON.stringify(companyEmployee));",
+											"        pm.environment.set(\"companyEmployees\", JSON.stringify(companyEmployees));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"job_title\" : \"Iron Man\",\n    \"description\" :  \"never made any money\",\n    \"firstName\" :  \"John\",\n    \"middleName\" :  \"Ellius\",\n    \"lastName\" :  \"Frank\",\n    \"media\": {\n      \"photos\" : [\n        {\n          \"url\" : \"https://profilepic.com\"\n        }\n      ],\n      \"videos\" : [\n        {\n          \"url\" : \"https://youtube.com/myVid\",\n          \"embedded\" : true,\n          \"provider\" : \"youtube\"\n        }\n      ]\n    }\n  }",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyEmployeesUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyEmployeesUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /companies/:id/employees 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b7d12097-5535-4fd2-960c-4c378febebd4",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyEmployee = JSON.parse(responseBody);",
+											"        let companyEmployees = (pm.environment.get(\"companyEmployees\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyEmployees\")))) ? [] : JSON.parse(pm.environment.get(\"companyEmployees\"));",
+											"        companyEmployees.push(companyEmployee);",
+											"        ",
+											"        pm.environment.set(\"companyEmployeeId_\", companyEmployee._id);",
+											"        pm.environment.set(\"companyEmployee\", JSON.stringify(companyEmployee));",
+											"        pm.environment.set(\"companyEmployees\", JSON.stringify(companyEmployees));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"job_title\" : \"Strong Man\",\n    \"description\" :  \"never made any money\",\n    \"firstName\" :  \"Clint\",\n    \"middleName\" :  \"Lewis\",\n    \"lastName\" :  \"Eastwood\",\n    \"media\": {\n      \"photos\" : [\n        {\n          \"url\" : \"https://profilepic.com\"\n        }\n      ],\n      \"videos\" : [\n        {\n          \"url\" : \"https://youtube.com/myVid\",\n          \"embedded\" : true,\n          \"provider\" : \"youtube\"\n        }\n      ]\n    }\n  }",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyEmployeesUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyEmployeesUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET /companies/:id/employees/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e1f3e935-ae7f-4e87-8aaf-5f7380744352",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyEmployee = JSON.parse(responseBody);",
+											"        let companyEmployees = (pm.environment.get(\"companyEmployees\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyEmployees\")))) ? [] : JSON.parse(pm.environment.get(\"companyEmployees\"));",
+											"",
+											"        //Setting new value for companyEmployee, if Reset",
+											"        let companyEmployeeIndex = companyEmployees.findIndex(currCompanyEmployee => currCompanyEmployee._id === companyEmployee._id);",
+											"        if (companyEmployeeIndex >= 0) {",
+											"            companyEmployees[companyEmployeeIndex] = companyEmployee;",
+											"        } else {",
+											"            companyEmployees.push(companyEmployee);",
+											"        }",
+											"",
+											"        pm.environment.set(\"companyEmployeeId_\", companyEmployee._id);",
+											"        pm.environment.set(\"companyEmployee\", JSON.stringify(companyEmployee));",
+											"        pm.environment.set(\"companyEmployees\", JSON.stringify(companyEmployees));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyEmployeesUrl}}/{{companyEmployeeId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyEmployeesUrl}}",
+										"{{companyEmployeeId_}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE /companies/:id/employees/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "6317043e-429e-4725-92fd-5aaef81f2d67",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyEmployee = JSON.parse(responseBody);",
+											"        let companyEmployees = (pm.environment.get(\"companyEmployees\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyEmployees\")))) ? [] : JSON.parse(pm.environment.get(\"companyEmployees\"));",
+											"",
+											"        //Resetting companies",
+											"        companyEmployees = companyEmployees.filter(currCompanyEmployee => currCompanyEmployee._id !== companyEmployee._id);",
+											"",
+											"        companyEmployee = companyEmployees.length ? companyEmployees[companyEmployees.length - 1] : { id: \"\" }",
+											"",
+											"        pm.environment.set(\"companyEmployeeId_\", companyEmployee._id);",
+											"        pm.environment.set(\"companyEmployee\", JSON.stringify(companyEmplyee));",
+											"        pm.environment.set(\"companyEmployees\", JSON.stringify(companyEmployees));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyEmployeesUrl}}/{{companyEmployeeId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyEmployeesUrl}}",
+										"{{companyEmployeeId_}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH /companies/:id/employees/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0fb39f60-d078-425a-b9f0-eac09b35688e",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyEmployee = JSON.parse(responseBody);",
+											"        let companyEmployees = (pm.environment.get(\"companyEmployees\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyEmployees\")))) ? [] : JSON.parse(pm.environment.get(\"companyEmployees\"));",
+											"",
+											"        //Setting new value for companyEmployee, if Reset",
+											"        let companyEmployeeIndex = companyEmployees.findIndex(currCompanyEmployee => currCompanyEmployee._id === companyEmployee._id);",
+											"        if (companyEmployeeIndex >= 0) {",
+											"            companyEmployees[companyEmployeeIndex] = companyEmployee;",
+											"        } else {",
+											"            companyEmployees.push(companyEmployee);",
+											"        }",
+											"",
+											"        pm.environment.set(\"companyEmployeeId_\", companyEmployee._id);",
+											"        pm.environment.set(\"companyEmployee\", JSON.stringify(companyEmployee));",
+											"        pm.environment.set(\"companyEmployees\", JSON.stringify(companyEmployees));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"job_title\" : \"Super man2\",\n    \"description\" :  \"made lots of money\",\n    \"firstName\" :  \"Clark\",\n    \"middleName\" :  \"Cal-El\",\n    \"lastName\" :  \"Kent\",\n    \"media\": {\n      \"photos\" : [\n        {\n          \"url\" : \"https://profilepic.com\"\n        }\n      ],\n      \"videos\" : [\n        {\n          \"url\" : \"https://youtube.com/myVid\",\n          \"embedded\" : true,\n          \"provider\" : \"youtube\"\n        }\n      ]\n    }\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyEmployeesUrl}}/{{companyEmployeeId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyEmployeesUrl}}",
+										"{{companyEmployeeId_}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "jobs",
+					"item": [
+						{
+							"name": "GET /companies/:id/jobs",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "2fdd0af0-76ed-4bad-8207-084fea010476",
+										"exec": [
+											"if (!data.errors) {",
+											"    let jobs = JSON.parse(responseBody);",
+											"",
+											"    let job = jobs.length ? jobs[jobs.length - 1] : { id: \"\" };",
+											"",
+											"    pm.environment.set(\"jobId_\", job._id)",
+											"    pm.environment.set(\"job\", JSON.stringify(job))",
+											"    pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{jobsUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{jobsUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /companies/:id/jobs",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "04d67ea3-f4d1-4b8a-b39d-7be4ce2d7319",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let job = JSON.parse(responseBody);",
+											"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+											"",
+											"        jobs.push(job);",
+											"",
+											"        pm.environment.set(\"jobId_\", job._id);",
+											"        pm.environment.set(\"job\", JSON.stringify(job));",
+											"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"My first job\",\n\t\"summary\": \"This is my first job\",\n\t\"company\": \"{{companyId_}}\",\n\t\"wage_type\": \"per task\",\n\t\"wage_per_task_description\" : \"for every task completed\",\n\t\"wage_amount\": 50,\n\t\"wage_currency\": \"dollars\",\n\t\"start_date\": \"01-01-2022\",\n\t\"position_time\": \"full-time\",\n\t\"position_type\": \"permanent\",\n\t\"remote\": false,\n\t\"hours\": \"a\",\n\t\"responsibilities\": \"Doing random tasks\",\n\t\"trending\": false,\n\t\"location\" : {\n\t\t\"street_address_lines\" : [\n\t\t\t\"asdf\"\n\t\t],\n\t\t\"postal_code\" : \"R3T 0N7\",\n\t\t\"country\" : \"Canada\"\n\t}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{jobsUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{jobsUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /companies/:id/jobs 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "afe37cf6-08cf-4a14-83ee-eb25d995b5b8",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let job = JSON.parse(responseBody);",
+											"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+											"",
+											"        jobs.push(job);",
+											"",
+											"        pm.environment.set(\"jobId_\", job._id);",
+											"        pm.environment.set(\"job\", JSON.stringify(job));",
+											"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"My second job\",\n\t\"summary\": \"This is my second job\",\n\t\"company\": \"{{companyId_}}\",\n\t\"wage_type\": \"hourly\",\n\t\"wage_amount\": 50,\n\t\"wage_currency\": \"dollars\",\n\t\"start_date\": \"01-01-2022\",\n\t\"position_time\": \"full-time\",\n\t\"position_type\": \"permanent\",\n\t\"remote\": false,\n\t\"hours\": \"a\",\n\t\"responsibilities\": \"Doing random jobs\",\n\t\"trending\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{jobsUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{jobsUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /companies/:id/jobs 2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "1a3e453f-fe77-40ed-84e5-d1fcdf5ae7b9",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let job = JSON.parse(responseBody);",
+											"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+											"",
+											"        jobs.push(job);",
+											"",
+											"        pm.environment.set(\"jobId_\", job._id);",
+											"        pm.environment.set(\"job\", JSON.stringify(job));",
+											"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"My third job\",\n\t\"summary\": \"This is my third job\",\n\t\"company\": \"{{companyId_}}\",\n\t\"wage_type\": \"hourly\",\n\t\"wage_amount\": 50,\n\t\"wage_currency\": \"dollars\",\n\t\"start_date\": \"01-01-2022\",\n\t\"position_time\": \"full-time\",\n\t\"position_type\": \"permanent\",\n\t\"remote\": false,\n\t\"hours\": \"a\",\n\t\"responsibilities\": \"Doing random jobs\",\n\t\"trending\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{jobsUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{jobsUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET /companies/:id/jobs/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d34d8f70-c82f-4d63-aecc-75dfde5218ff",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let job = JSON.parse(responseBody);",
+											"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+											"",
+											"        //Setting new value for job, if Reset",
+											"        let jobIndex = jobs.findIndex(currJob => currJob._id === job._id);",
+											"        if (jobIndex >= 0) {",
+											"            jobs[jobIndex] = job;",
+											"        } else {",
+											"            jobs.push(job);",
+											"        }",
+											"        ",
+											"        pm.environment.set(\"jobId_\", job._id);",
+											"        pm.environment.set(\"job\", JSON.stringify(job));",
+											"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{jobsUrl}}/{{jobId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{jobsUrl}}",
+										"{{jobId_}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE /companies/:id/jobs/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e8d71bb6-5956-45d4-88f8-ec33e4079288",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let job = JSON.parse(responseBody);",
+											"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+											"",
+											"        //Resetting jobs",
+											"        jobs = jobs.filter(item => item._id !== job._id);",
+											"        job = jobs.length ? jobs[jobs.length - 1] : { id: \"\" }",
+											"",
+											"        pm.environment.set(\"jobId_\", job._id);",
+											"        pm.environment.set(\"job\", JSON.stringify(job));",
+											"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{jobsUrl}}/{{jobId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{jobsUrl}}",
+										"{{jobId_}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH /companies/:id/jobs/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c0992fc6-6655-4088-8bb4-f1a0285c181a",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let job = JSON.parse(responseBody);",
+											"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+											"",
+											"        //Setting new value for job, if Reset",
+											"        let jobIndex = jobs.findIndex(item => item._id === job._id);",
+											"        if (jobIndex >= 0) {",
+											"            jobs[jobIndex] = job;",
+											"        } else {",
+											"            jobs.push(job);",
+											"        }",
+											"",
+											"        pm.environment.set(\"jobId_\", job._id);",
+											"        pm.environment.set(\"job\", JSON.stringify(job));",
+											"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\": \"My fourth(0) job\",\n\t\"summary\": \"This is my second job\",\n\t\"company\": \"{{companyId_}}\",\n\t\"wage_type\": \"hourly\",\n\t\"wage_amount\": 70,\n\t\"wage_currency\": \"dollars\",\n\t\"start_date\": \"01-01-2023\",\n\t\"position_time\": \"full-time\",\n\t\"position_type\": \"permanent\",\n\t\"remote\": false,\n\t\"hours\": \"a\",\n\t\"responsibilities\": \"Doing good jobs\",\n\t\"trending\": false\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{jobsUrl}}/{{jobId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{jobsUrl}}",
+										"{{jobId_}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "ratings",
+					"item": [
+						{
+							"name": "GET /companies/:id/ratings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "dafa566c-33da-495b-a6f5-488dc39ce4d1",
+										"exec": [
+											"if (!data.errors) {",
+											"    let companyRatings = JSON.parse(responseBody);",
+											"",
+											"    let companyRating = companyRatings.length ? companyRatings[companyRatings.length - 1] : { id: \"\" };",
+											"",
+											"    pm.environment.set(\"companyRatingId_\", companyRating._id)",
+											"    pm.environment.set(\"companyRating\", JSON.stringify(companyRating))",
+											"    pm.environment.set(\"companyRatings\", JSON.stringify(companyRatings));",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"type": "text",
+										"value": "Bearer {{login_jwttoken}}"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyRatingsUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyRatingsUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /companies/:id/ratings",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0b6ef923-88f1-49d8-98a9-770bb928cc72",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyRating = JSON.parse(responseBody);",
+											"        let companyRatings = (pm.environment.get(\"companyRatings\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyRatings\")))) ? [] : JSON.parse(pm.environment.get(\"companyRatings\"));",
+											"        companyRatings.push(companyRating);",
+											"",
+											"        pm.environment.set(\"companyRatingId_\", companyRating._id);",
+											"        pm.environment.set(\"companyRating\", JSON.stringify(companyRating));",
+											"        pm.environment.set(\"companyRatings\", JSON.stringify(companyRatings));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"rating\" : 4,\n    \"title\" :  \"Great Company\",\n    \"description\" :  \"This is a great company to work for\",\n    \"positive\" :  \"Very inclusive\",\n    \"negative\" :  \"No potted plants\",\n    \"management\" : {\n    \t\"friendly\" : 4,\n    \t\"openness_to_feedback\" : 4,\n    \t\"strict_fair\" : 4,\n    \t\"time_management\" : \"self-managed\",\n    \t\"feedback_quality\" : 3,\n    \t\"feedback_frequency\" : 4\n    },\n    \"training\" : {\n    \t\"task_specific\" : true,\n    \t\"task_specific_quality\" : 4,\n    \t\"field_related\" : {\n    \t\t\"in_class\" : false,\n    \t\t\"conference\" : {\n    \t\t\t\"frequency\" : 1,\n    \t\t\t\"conferences\" : [\"GC Conf\", \"Company Creation Conference (CCC)\"]\n    \t\t},\n    \t\t\"online_subscriptions\" : false,\n    \t\t\"internal_video\" : false\n    \t}\n    },\n    \"career_advancement\" : {\n    \t\"seniority\" : false,\n    \t\"mentoring\" : true,\n    \t\"job_title\" : false,\n    \t\"likelihood\" : 1\n    },\n    \"allows_remote\" : {\n    \t\"scheduled\" : false,\n    \t\"if_sick\" : false,\n    \t\"always\" : false\n    },\n    \"flexibility\" : {\n    \t\"vacation\" : 2,\n    \t\"emergency\" : 3,\n    \t\"sick_leave\" : 4,\n    \t\"family\" : 3,\n    \t\"hours\" : 3\n    },\n    \"overtime\" : {\n    \t\"is_required\" : true,\n    \t\"frequency\" : \"Every fourth weekend\"\n    },\n    \"work_environment\" : {\n    \t\"friendly\" : 4,\n    \t\"work_space\" : \"open\",\n    \t\"noise_level\" : 3,\n    \t\"cleanliness\" : 3,\n    \t\"stress_level\" : 3\n    }\n  }",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyRatingsUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyRatingsUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /companies/:id/ratings 1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8b6d24c8-fe14-425b-9780-7150b1673974",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyRating = JSON.parse(responseBody);",
+											"        let companyRatings = (pm.environment.get(\"companyRatings\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyRatings\")))) ? [] : JSON.parse(pm.environment.get(\"companyRatings\"));",
+											"",
+											"        companyRatings.push(companyRating);",
+											"",
+											"        pm.environment.set(\"companyRatingId_\", companyRating._id);",
+											"        pm.environment.set(\"companyRating\", JSON.stringify(companyRating));",
+											"        pm.environment.set(\"companyRatings\", JSON.stringify(companyRatings));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"rating\" : 1,\n    \"title\" :  \"Great Company\",\n    \"description\" :  \"This is a great company to work for\",\n    \"positive\" :  \"Very inclusive\",\n    \"negative\" :  \"No potted plants\",\n    \"management\" : {\n    \t\"friendly\" : 4,\n    \t\"openness_to_feedback\" : 4,\n    \t\"strict_fair\" : 4,\n    \t\"time_management\" : \"self-managed\",\n    \t\"feedback_quality\" : 3,\n    \t\"feedback_frequency\" : 4\n    },\n    \"training\" : {\n    \t\"task_specific\" : true,\n    \t\"task_specific_quality\" : 4,\n    \t\"field_related\" : {\n    \t\t\"in_class\" : false,\n    \t\t\"conference\" : {\n    \t\t\t\"frequency\" : 1,\n    \t\t\t\"conferences\" : [\"GC Conf\", \"Company Creation Conference (CCC)\"]\n    \t\t},\n    \t\t\"online_subscriptions\" : false,\n    \t\t\"internal_video\" : false\n    \t}\n    },\n    \"career_advancement\" : {\n    \t\"seniority\" : false,\n    \t\"mentoring\" : true,\n    \t\"job_title\" : false,\n    \t\"likelihood\" : 1\n    },\n    \"allows_remote\" : {\n    \t\"scheduled\" : false,\n    \t\"if_sick\" : false,\n    \t\"always\" : false\n    },\n    \"flexibility\" : {\n    \t\"vacation\" : 2,\n    \t\"emergency\" : 3,\n    \t\"sick_leave\" : 4,\n    \t\"family\" : 3,\n    \t\"hours\" : 3\n    },\n    \"overtime\" : {\n    \t\"is_required\" : true,\n    \t\"frequency\" : \"Every fourth weekend\"\n    },\n    \"work_environment\" : {\n    \t\"friendly\" : 4,\n    \t\"work_space\" : \"open\",\n    \t\"noise_level\" : 3,\n    \t\"cleanliness\" : 3,\n    \t\"stress_level\" : 3\n    }\n  }",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyRatingsUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyRatingsUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST /companies/:id/ratings 2 - fails",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f77bd2c2-5df6-4d55-99a8-cedd15efa1cd",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"rating\" : 9,\n    \"title\" :  \"Great Company\",\n    \"description\" :  \"This is a great company to work for\",\n    \"positive\" :  \"Very inclusive\",\n    \"negative\" :  \"No potted plants\",\n    \"management\" : {\n    \t\"friendly\" : 4,\n    \t\"openness_to_feedback\" : 4,\n    \t\"strict_fair\" : 4,\n    \t\"time_management\" : \"self-managed\",\n    \t\"feedback_quality\" : 3,\n    \t\"feedback_frequency\" : 4\n    },\n    \"training\" : {\n    \t\"task_specific\" : true,\n    \t\"task_specific_quality\" : 4,\n    \t\"field_related\" : {\n    \t\t\"in_class\" : false,\n    \t\t\"conference\" : {\n    \t\t\t\"frequency\" : 1,\n    \t\t\t\"conferences\" : [\"GC Conf\", \"Company Creation Conference (CCC)\"]\n    \t\t},\n    \t\t\"online_subscriptions\" : false,\n    \t\t\"internal_video\" : false\n    \t}\n    },\n    \"career_advancement\" : {\n    \t\"seniority\" : false,\n    \t\"mentoring\" : true,\n    \t\"job_title\" : false,\n    \t\"likelihood\" : 1\n    },\n    \"allows_remote\" : {\n    \t\"scheduled\" : false,\n    \t\"if_sick\" : false,\n    \t\"always\" : false\n    },\n    \"flexibility\" : {\n    \t\"vacation\" : 2,\n    \t\"emergency\" : 3,\n    \t\"sick_leave\" : 4,\n    \t\"family\" : 3,\n    \t\"hours\" : 3\n    },\n    \"overtime\" : {\n    \t\"is_required\" : true,\n    \t\"frequency\" : \"Every fourth weekend\"\n    },\n    \"work_environment\" : {\n    \t\"friendly\" : 4,\n    \t\"work_space\" : \"open\",\n    \t\"noise_level\" : 3,\n    \t\"cleanliness\" : 3,\n    \t\"stress_level\" : 3\n    }\n  }",
+									"options": {
+										"raw": {}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyRatingsUrl}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyRatingsUrl}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET /companies/:id/ratings/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "9273b254-33fb-472e-b25a-f734f2da7d83",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyRating = JSON.parse(responseBody);",
+											"        let companyRatings = (pm.environment.get(\"companyRatings\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyRatings\")))) ? [] : JSON.parse(pm.environment.get(\"companyRatings\"));",
+											"",
+											"        //Setting new value for companyRating, if Reset",
+											"        let companyRatingIndex = companyRatings.findIndex(item => item._id === companyRating._id);",
+											"        if (companyRatingIndex >= 0) {",
+											"            companyRatings[companyRatingIndex] = companyRating;",
+											"        } else {",
+											"            companyRatings.push(companyRating);",
+											"        }",
+											"",
+											"        pm.environment.set(\"companyRatingId_\", companyRating._id);",
+											"        pm.environment.set(\"companyRating\", JSON.stringify(companyRating));",
+											"        pm.environment.set(\"companyRatings\", JSON.stringify(companyRatings));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyRatingsUrl}}/{{companyRatingId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyRatingsUrl}}",
+										"{{companyRatingId_}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE /companies/:id/ratings/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "64545be4-b54a-42ab-8d62-82aa2f4b9c32",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyRating = JSON.parse(responseBody);",
+											"        let companyRatings = (pm.environment.get(\"companyRatings\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyRatings\")))) ? [] : JSON.parse(pm.environment.get(\"companyRatings\"));",
+											"",
+											"        //Resetting companyratings",
+											"        companyRatings = companyRatings.filter(item => item._id !== companyRating._id);",
+											"        companyRating = companyRatings.length ? companyRatings[companyRatings.length - 1] : { id: \"\" }",
+											"",
+											"        pm.environment.set(\"companyRatingId_\", companyRating._id);",
+											"        pm.environment.set(\"companyRating\", JSON.stringify(companyRating));",
+											"        pm.environment.set(\"companyRatings\", JSON.stringify(companyRatings));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyRatingsUrl}}/{{companyRatingId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyRatingsUrl}}",
+										"{{companyRatingId_}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH /companies/:id/ratings/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "30a4c36a-1529-4de9-b9a6-d032f86d8efe",
+										"exec": [
+											"if (!data.errors) {",
+											"    try {",
+											"        let companyRating = JSON.parse(responseBody);",
+											"        let companyRatings = (pm.environment.get(\"companyRatings\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companyRatings\")))) ? [] : JSON.parse(pm.environment.get(\"companyRatings\"));",
+											"",
+											"        //Setting new value for companyRating, if Reset",
+											"        let companyRatingIndex = companyRatings.findIndex(item => item._id === companyRating._id);",
+											"        if (companyRatingIndex >= 0) {",
+											"            companyRatings[companyRatingIndex] = companyRating;",
+											"        } else {",
+											"            companyRatings.push(companyRating);",
+											"        }",
+											"",
+											"        pm.environment.set(\"companyRatingId_\", companyRating._id);",
+											"        pm.environment.set(\"companyRating\", JSON.stringify(companyRating));",
+											"        pm.environment.set(\"companyRatings\", JSON.stringify(companyRatings));",
+											"    } catch (e) { }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "  {\n    \"company\" : \"{{companyId_}}\",\n    \"rating\" : 4,\n    \"title\" :  \"Bad Company\",\n    \"description\" :  \"This is a bad company to work for\",\n    \"positive\" :  \"Very inclusive\",\n    \"negative\" :  \"No potted plants\",\n    \"management\" : {\n    \t\"friendly\" : 4,\n    \t\"openness_to_feedback\" : 4,\n    \t\"strict_fair\" : 4,\n    \t\"time_management\" : \"self-managed\",\n    \t\"feedback_quality\" : 3,\n    \t\"feedback_frequency\" : 4\n    },\n    \"training\" : {\n    \t\"task_specific\" : true,\n    \t\"task_specific_quality\" : 4,\n    \t\"field_related\" : {\n    \t\t\"in_class\" : false,\n    \t\t\"conference\" : {\n    \t\t\t\"frequency\" : 1,\n    \t\t\t\"conferences\" : [\"GC Conf\", \"Company Creation Conference (CCC)\"]\n    \t\t},\n    \t\t\"online_subscriptions\" : false,\n    \t\t\"internal_video\" : false\n    \t}\n    },\n    \"career_advancement\" : {\n    \t\"seniority\" : false,\n    \t\"mentoring\" : true,\n    \t\"job_title\" : false,\n    \t\"likelihood\" : 1\n    },\n    \"allows_remote\" : {\n    \t\"scheduled\" : false,\n    \t\"if_sick\" : false,\n    \t\"always\" : false\n    },\n    \"flexibility\" : {\n    \t\"vacation\" : 2,\n    \t\"emergency\" : 3,\n    \t\"sick_leave\" : 4,\n    \t\"family\" : 3,\n    \t\"hours\" : 3\n    },\n    \"overtime\" : {\n    \t\"is_required\" : true,\n    \t\"frequency\" : \"Every fourth weekend\"\n    },\n    \"work_environment\" : {\n    \t\"friendly\" : 4,\n    \t\"work_space\" : \"open\",\n    \t\"noise_level\" : 3,\n    \t\"cleanliness\" : 3,\n    \t\"stress_level\" : 3\n    }\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}/{{companyRatingsUrl}}/{{companyRatingId_}}",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"{{companiesUrl}}",
+										"{{companyId_}}",
+										"{{companyRatingsUrl}}",
+										"{{companyRatingId_}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "GET /companies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d4aae267-a03f-4a22-8c2c-7ec15171745d",
+								"exec": [
+									"if(!data.errors){",
+									"    let companies = JSON.parse(responseBody);",
+									"    ",
+									"    let company = companies.length ? companies[companies.length - 1] : {id: \"\"};",
+									"",
+									"    pm.environment.set(\"companyId_\", company._id)",
+									"    pm.environment.set(\"company\", JSON.stringify(company))",
+									"    pm.environment.set(\"companies\", JSON.stringify(companies));",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{login_jwttoken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{companiesUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{companiesUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /companies/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "44b1c05e-9511-4447-a6ce-deccd81be927",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let company = JSON.parse(responseBody);",
+									"        let companies = (pm.environment.get(\"companies\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companies\")))) ? [] : JSON.parse(pm.environment.get(\"companies\"));",
+									"",
+									"        //Setting new value for company, if reset",
+									"        let companyIndex = companies.findIndex(currCompany => currCompany._id === company._id);",
+									"        if(companyIndex >= 0){",
+									"            companies[companyIndex] = company;",
+									"        } else {",
+									"            companies.push(company);",
+									"        }",
+									"",
+									"        pm.environment.set(\"companyId_\", company._id);",
+									"        pm.environment.set(\"company\", JSON.stringify(company));",
+									"        pm.environment.set(\"companies\", JSON.stringify(companies));",
+									"    } catch(e){}",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{login_jwttoken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{companiesUrl}}",
+								"{{companyId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /companies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3601851b-a860-437d-b596-dc01d67515ae",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let company = JSON.parse(responseBody);",
+									"        let companies = (pm.environment.get(\"companies\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companies\")))) ? [] : JSON.parse(pm.environment.get(\"companies\"));",
+									"",
+									"        companies.push(company);",
+									"",
+									"        pm.environment.set(\"companyId_\", company._id);",
+									"        pm.environment.set(\"company\", JSON.stringify(company));",
+									"        pm.environment.set(\"companies\", JSON.stringify(companies));",
+									"    } catch(e){}",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"A Co.\",\n  \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eu blandit sapien. Donec nibh nibh, tincidunt nec enim in, ullamcorper sodales lectus. Sed malesuada diam vitae nisl luctus rutrum ut vitae ante. Pellentesque hendrerit nunc a nunc volutpat, ut ultricies nibh rhoncus. Integer id dignissim tellus, eu sagittis eros. Maecenas dui enim, sagittis venenatis magna quis, placerat cursus enim. Nulla pulvinar sit amet turpis a pellentesque. Nulla rhoncus magna justo, ut gravida tellus ullamcorper eget. Proin fringilla nibh eu magna cursus, at vulputate orci pharetra.\\n\\nPhasellus placerat tristique lorem eget porta. Nunc eu odio risus. Aenean ex arcu, interdum vitae luctus non, cursus non neque. Nam porttitor, nisl vel consequat tristique, nisl est facilisis nunc, in pretium sem arcu non magna. Vestibulum sed fermentum magna. Pellentesque iaculis, dui quis eleifend dictum, ante neque consectetur est, quis dictum justo metus eu mi. Donec fermentum sem sit amet nunc venenatis commodo. Integer accumsan porttitor enim, eget viverra nisi. Nullam et odio sit amet nisi tempor tempus. Fusce porttitor turpis eu venenatis viverra. Etiam sagittis eleifend justo vehicula ultrices. In eu nisl ac massa ornare aliquam. Mauris consectetur justo a justo interdum, in posuere lorem vulputate. In hac habitasse platea dictumst.\",\n  \"socialmedia\": {\n    \"twitter\": \"a\",\n    \"facebook\": \"b\",\n    \"linkedin\": \"c\",\n    \"instagram\": \"e\"\n  },\n  \"phonenumbers\": [\n    {\n      \"areacode\": 204,\n      \"countrycode\": 1,\n      \"prefix\": 299,\n      \"subscribernumber\": 6497,\n      \"extension\": 223\n    }\n  ],\n  \"emails\": [{\n    \"name\": \"Jonathan Albertson\",\n    \"address\": \"a@a.com\"\n  },{\n    \"name\": \"Frank Henkerson\",\n    \"address\": \"b@b.com\"\n  },{\n    \"address\": \"hiring@c.com\"\n  }],\n  \"media\": {\n  \t\"photos\" : [\n  \t\t{\n  \t\t\t\"url\" : \"https://profilepic.com\"\n  \t\t}\n  \t],\n  \t\"videos\" : [\n  \t\t{\n  \t\t\t\"id\" : \"qWdh3qNjXjk\",\n  \t\t\t\"embedded\" : true,\n  \t\t\t\"provider\" : \"youtube\"\n  \t\t}\n  \t]\n  },\n  \"industries\": [\n\t\"Software\",\n    \"Industry\"\n  ],\n  \"workculture\": \"Family-Oriented – employees are offered benefits and flexibility that make it easy to find balance\\n\\nRewarding – those who exceed expectations are recognized, even in non-monetary ways\\n\\nRelaxed – workers are given some freedom to decide how they do their best work and then do it that way\\n\\nChallenging – team members are pushed to explore and work at the top of their skill sets; employees who are up for a challenge have access to more challenging work at any time\\n\\nCollaborative – employees work well with one another, within and between departments\\n\\nNurturing – the organization supports employee growth and development; gives employees clear feedback and suggestions before moving to termination\\n\\nMotivating – employees feel motivated to achieve because of intrinsic and extrinsic rewards\\n\\nEngaging – employees feel invested in their work and their organization and do their best work every day\\n\\nInnovative – the company is always seeking new ways to stay a step ahead of the industry and is open to feedback and ideas\\n\\nFun – the organization creates opportunities for fun in daily work\\n\\nCasual – the dress code, the environment, or the communication style is casual; formality isn’t required\\n\\nFast-paced – employees have no trouble staying busing and thriving in their work environments and their workday goes by quickly\\n\\nAutonomous – employees have both the freedom and accountability to change their workplace and their results\\n\\nInclusive – diversity is welcomed and appreciated\\n\\nFriendly – staff engage in positive interactions with one another throughout the day\",\n  \"learningopportunities\": [\"We provide onside training for all of our employees along with coaching sessions on a monthly basis to deal with any difficulties that employees may have performing their job duties. We also provide free access to all employees to Skillshare so that they can actively grow their career-related skills\"],\n  \"benefits\": \"Medical, prescription drug, dental and vision coverage.\\n401(k) savings plan.\\nPaid time-off and Holiday overtime pay.\\nResources to help improve your overall well-being.\\nDiscounts on Amazon purchases.\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{companiesUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{companiesUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /companies 2 - subgroups",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dd9a71e2-07d4-4428-a03c-9e3c1b996f1a",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let company = JSON.parse(responseBody);",
+									"        let companies = (pm.environment.get(\"companies\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companies\")))) ? [] : JSON.parse(pm.environment.get(\"companies\"));",
+									"        companies.push(company);",
+									"        ",
+									"        //Not set in order that multiple entries can be added to the same parent by re-calling",
+									"        // pm.environment.set(\"companyId_\", company._id);",
+									"        pm.environment.set(\"company\", JSON.stringify(company));",
+									"        pm.environment.set(\"companies\", JSON.stringify(companies));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"B Co.\",\n  \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eu blandit sapien. Donec nibh nibh, tincidunt nec enim in, ullamcorper sodales lectus. Sed malesuada diam vitae nisl luctus rutrum ut vitae ante. Pellentesque hendrerit nunc a nunc volutpat, ut ultricies nibh rhoncus. Integer id dignissim tellus, eu sagittis eros. Maecenas dui enim, sagittis venenatis magna quis, placerat cursus enim. Nulla pulvinar sit amet turpis a pellentesque. Nulla rhoncus magna justo, ut gravida tellus ullamcorper eget. Proin fringilla nibh eu magna cursus, at vulputate orci pharetra.\\n\\nPhasellus placerat tristique lorem eget porta. Nunc eu odio risus. Aenean ex arcu, interdum vitae luctus non, cursus non neque. Nam porttitor, nisl vel consequat tristique, nisl est facilisis nunc, in pretium sem arcu non magna. Vestibulum sed fermentum magna. Pellentesque iaculis, dui quis eleifend dictum, ante neque consectetur est, quis dictum justo metus eu mi. Donec fermentum sem sit amet nunc venenatis commodo. Integer accumsan porttitor enim, eget viverra nisi. Nullam et odio sit amet nisi tempor tempus. Fusce porttitor turpis eu venenatis viverra. Etiam sagittis eleifend justo vehicula ultrices. In eu nisl ac massa ornare aliquam. Mauris consectetur justo a justo interdum, in posuere lorem vulputate. In hac habitasse platea dictumst.\",\n  \"socialmedia\": {\n    \"twitter\": \"a\",\n    \"facebook\": \"b\",\n    \"linkedin\": \"c\",\n    \"instagram\": \"e\"\n  },\n  \"phonenumbers\": [\n    {\n      \"areacode\": 204,\n      \"countrycode\": 1,\n      \"prefix\": 299,\n      \"subscribernumber\": 6497,\n      \"extension\": 223\n    }\n  ],\n  \"emails\": [{\n    \"name\": \"Jonathan Albertson\",\n    \"address\": \"a@a.com\"\n  },{\n    \"name\": \"Frank Henkerson\",\n    \"address\": \"b@b.com\"\n  },{\n    \"address\": \"hiring@c.com\"\n  }],\n  \"media\": {\n  \t\"photos\" : [\n  \t\t{\n  \t\t\t\"url\" : \"https://profilepic.com\"\n  \t\t}\n  \t],\n  \t\"videos\" : [\n  \t\t{\n  \t\t\t\"id\" : \"qWdh3qNjXjk\",\n  \t\t\t\"embedded\" : true,\n  \t\t\t\"provider\" : \"youtube\"\n  \t\t}\n  \t]\n  },\n  \"industries\": [\n\t\"Software\",\n    \"Industry\"\n  ],\n  \"workculture\": \"Family-Oriented – employees are offered benefits and flexibility that make it easy to find balance\\n\\nRewarding – those who exceed expectations are recognized, even in non-monetary ways\\n\\nRelaxed – workers are given some freedom to decide how they do their best work and then do it that way\\n\\nChallenging – team members are pushed to explore and work at the top of their skill sets; employees who are up for a challenge have access to more challenging work at any time\\n\\nCollaborative – employees work well with one another, within and between departments\\n\\nNurturing – the organization supports employee growth and development; gives employees clear feedback and suggestions before moving to termination\\n\\nMotivating – employees feel motivated to achieve because of intrinsic and extrinsic rewards\\n\\nEngaging – employees feel invested in their work and their organization and do their best work every day\\n\\nInnovative – the company is always seeking new ways to stay a step ahead of the industry and is open to feedback and ideas\\n\\nFun – the organization creates opportunities for fun in daily work\\n\\nCasual – the dress code, the environment, or the communication style is casual; formality isn’t required\\n\\nFast-paced – employees have no trouble staying busing and thriving in their work environments and their workday goes by quickly\\n\\nAutonomous – employees have both the freedom and accountability to change their workplace and their results\\n\\nInclusive – diversity is welcomed and appreciated\\n\\nFriendly – staff engage in positive interactions with one another throughout the day\",\n  \"learningopportunities\": [\"We provide onside training for all of our employees along with coaching sessions on a monthly basis to deal with any difficulties that employees may have performing their job duties. We also provide free access to all employees to Skillshare so that they can actively grow their career-related skills\"],\n  \"benefits\": \"Medical, prescription drug, dental and vision coverage.\\n401(k) savings plan.\\nPaid time-off and Holiday overtime pay.\\nResources to help improve your overall well-being.\\nDiscounts on Amazon purchases.\",\n  \"_parent\": \"{{companyId_}}\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{companiesUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{companiesUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /companies/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "aaf3eede-2867-4ac7-9955-26e1a9d2d0a5",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let company = JSON.parse(responseBody);",
+									"        let companies = (pm.environment.get(\"companies\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companies\")))) ? [] : JSON.parse(pm.environment.get(\"companies\"));",
+									"",
+									"        let companyIndex = companies.findIndex(currCompany => currCompany._id === company._id);",
+									"        if(companyIndex >= 0){",
+									"            companies[companyIndex] = company;",
+									"        } else {",
+									"            companies.push(company);",
+									"        }",
+									"",
+									"        pm.environment.set(\"companyId_\", company._id);",
+									"        pm.environment.set(\"company\", JSON.stringify(company));",
+									"        pm.environment.set(\"companies\", JSON.stringify(companies));",
+									"    } catch(e){}",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Changed Company3\",\n\t\"_parent\": \"5f331ad831747f04cb70483d\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{companiesUrl}}",
+								"{{companyId_}}"
+							]
+						},
+						"description": "Update TODO info"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /companies/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5a75aa9f-aaf8-43f3-b192-38a78fdb26d4",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let company = JSON.parse(responseBody);",
+									"        let companies = (pm.environment.get(\"companies\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companies\")))) ? [] : JSON.parse(pm.environment.get(\"companies\"));",
+									"",
+									"        //Resetting companies",
+									"        companies = companies.filter(currCompany => currCompany._id !== company._id);",
+									"        company = companies.length ? companies[companies.length - 1] : {id: \"\"}",
+									"",
+									"        pm.environment.set(\"companyId_\", company._id);",
+									"        pm.environment.set(\"company\", JSON.stringify(company));",
+									"        pm.environment.set(\"companies\", JSON.stringify(companies));",
+									"    } catch(e){}",
+									"}",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{login_jwttoken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{companiesUrl}}/{{companyId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{companiesUrl}}",
+								"{{companyId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /companies/:id (customid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fe6fe894-7772-48a9-b9e9-ba1ee8293b34",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let company = JSON.parse(responseBody);",
+									"        let companies = (pm.environment.get(\"companies\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"companies\")))) ? [] : JSON.parse(pm.environment.get(\"companies\"));",
+									"",
+									"        //Resetting companies",
+									"        companies = companies.filter(currCompany => currCompany._id !== company._id);",
+									"        company = companies.length ? companies[companies.length - 1] : {id: \"\"}",
+									"",
+									"        pm.environment.set(\"companyId_\", company._id);",
+									"        pm.environment.set(\"company\", JSON.stringify(company));",
+									"        pm.environment.set(\"companies\", JSON.stringify(companies));",
+									"    } catch(e){}",
+									"}",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer {{login_jwttoken}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{companiesUrl}}/5f3b016bfaa4e201311d0883",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{companiesUrl}}",
+								"5f3b016bfaa4e201311d0883"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "jobs",
+			"item": [
+				{
+					"name": "GET /jobs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d7d43598-7dbd-48ad-92cb-78f978a2b157",
+								"exec": [
+									"if (!data.errors) {",
+									"    let jobs = JSON.parse(responseBody);",
+									"",
+									"    let job = jobs.length ? jobs[jobs.length - 1] : { id: \"\" };",
+									"",
+									"    pm.environment.set(\"jobId_\", job._id)",
+									"    pm.environment.set(\"job\", JSON.stringify(job))",
+									"    pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{jobsUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{jobsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /jobs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b891b5f2-25a5-43af-918a-5fe636f43443",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let job = JSON.parse(responseBody);",
+									"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+									"",
+									"        jobs.push(job);",
+									"",
+									"        pm.environment.set(\"jobId_\", job._id);",
+									"        pm.environment.set(\"job\", JSON.stringify(job));",
+									"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"My first job\",\n\t\"summary\": \"This is my first job\",\n\t\"company\": \"{{companyId_}}\",\n\t\"wage_type\": \"hourly\",\n\t\"wage_amount\": 50,\n\t\"wage_currency\": \"dollars\",\n\t\"start_date\": \"01-01-2022\",\n\t\"position_time\": \"full-time\",\n\t\"position_type\": \"permanent\",\n\t\"remote\": false,\n\t\"hours\": \"a\",\n\t\"responsibilities\": \"Doing crappy jobs\",\n\t\"trending\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{jobsUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{jobsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /jobs 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "092abbc0-bcf5-4ece-beda-9f725465ded9",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let job = JSON.parse(responseBody);",
+									"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+									"",
+									"        jobs.push(job);",
+									"",
+									"        pm.environment.set(\"jobId_\", job._id);",
+									"        pm.environment.set(\"job\", JSON.stringify(job));",
+									"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"My first job\",\n\t\"summary\": \"This is my first job\",\n\t\"company\": \"{{companyId_}}\",\n\t\"wage_type\": \"hourly\",\n\t\"wage_amount\": 50,\n\t\"wage_currency\": \"dollars\",\n\t\"start_date\": \"01-01-2022\",\n\t\"position_time\": \"full-time\",\n\t\"position_type\": \"permanent\",\n\t\"remote\": false,\n\t\"hours\": \"a\",\n\t\"responsibilities\": \"Doing crappy jobs\",\n\t\"trending\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{jobsUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{jobsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /jobs 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1144abea-d5ff-4fe8-bf8a-3ad9158a541e",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let job = JSON.parse(responseBody);",
+									"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+									"",
+									"        jobs.push(job);",
+									"",
+									"        pm.environment.set(\"jobId_\", job._id);",
+									"        pm.environment.set(\"job\", JSON.stringify(job));",
+									"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"My first job\",\n\t\"summary\": \"This is my first job\",\n\t\"company\": \"{{companyId_}}\",\n\t\"wage_type\": \"hourly\",\n\t\"wage_amount\": 50,\n\t\"wage_currency\": \"dollars\",\n\t\"start_date\": \"01-01-2022\",\n\t\"position_time\": \"full-time\",\n\t\"position_type\": \"permanent\",\n\t\"remote\": false,\n\t\"hours\": \"a\",\n\t\"responsibilities\": \"Doing crappy jobs\",\n\t\"trending\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{jobsUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{jobsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /jobs/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8735a9a0-ac6b-4db8-ab89-df23f41c9357",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let job = JSON.parse(responseBody);",
+									"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+									"",
+									"        //Setting new value for job, if Reset",
+									"        let jobIndex = jobs.findIndex(currJob => currJob._id === job._id);",
+									"        if (jobIndex >= 0) {",
+									"            jobs[jobIndex] = job;",
+									"        } else {",
+									"            jobs.push(job);",
+									"        }",
+									"",
+									"        pm.environment.set(\"jobId_\", job._id);",
+									"        pm.environment.set(\"job\", JSON.stringify(job));",
+									"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{jobsUrl}}/{{jobId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{jobsUrl}}",
+								"{{jobId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /jobs/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8400780c-3f4d-460b-a745-90022c5e732d",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let job = JSON.parse(responseBody);",
+									"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+									"",
+									"        //Resetting companies",
+									"        jobs = jobs.filter(elem => elem._id !== job._id);",
+									"        job = job.length ? jobs[jobs.length - 1] : { id: \"\" }",
+									"",
+									"        pm.environment.set(\"jobId_\", job._id);",
+									"        pm.environment.set(\"job\", JSON.stringify(jobs));",
+									"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{jobsUrl}}/{{jobId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{jobsUrl}}",
+								"{{jobId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /jobs/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ddc8681a-3cba-46e3-a220-e6e97e106cfb",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let job = JSON.parse(responseBody);",
+									"        let jobs = (pm.environment.get(\"jobs\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"jobs\")))) ? [] : JSON.parse(pm.environment.get(\"jobs\"));",
+									"",
+									"        //Setting new value for job, if Reset",
+									"        let jobIndex = jobs.findIndex(elem => elem._id === job._id);",
+									"        if (jobIndex >= 0) {",
+									"            jobs[jobIndex] = job;",
+									"        } else {",
+									"            jobs.push(job);",
+									"        }",
+									"",
+									"        pm.environment.set(\"jobId_\", job._id);",
+									"        pm.environment.set(\"job\", JSON.stringify(job));",
+									"        pm.environment.set(\"jobs\", JSON.stringify(jobs));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"My second job\",\n\t\"summary\": \"This is my second job\",\n\t\"company\": \"{{companyId_}}\",\n\t\"wage_type\": \"hourly\",\n\t\"wage_amount\": 70,\n\t\"wage_currency\": \"dollars\",\n\t\"start_date\": \"01-01-2023\",\n\t\"position_time\": \"full-time\",\n\t\"position_type\": \"permanent\",\n\t\"remote\": false,\n\t\"hours\": \"a\",\n\t\"responsibilities\": \"Doing good jobs\",\n\t\"trending\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{jobsUrl}}/{{jobId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{jobsUrl}}",
+								"{{jobId_}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "todos",
+			"item": [
+				{
+					"name": "GET /todos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "010021ab-85b8-4c2d-b02e-ec963a3b1d2b",
+								"exec": [
+									"if(!data.errors){",
+									"    let todos_ = JSON.parse(responseBody);",
+									"    pm.environment.set(\"todos_\", JSON.stringify(todos_));",
+									"    ",
+									"    if(todos_.length){",
+									"        let lastTodo_ = todos_[todos_.length - 1];",
+									"        pm.environment.set(\"todoId_\", lastTodo_._id);",
+									"        pm.environment.set(\"todoIds_\", todos_.map(todo => todo._id));",
+									"        pm.environment.set(\"taskIds_\", lastTodo_.tasks.map(task => task._id));",
+									"        pm.environment.set(\"tasks_\", JSON.stringify(lastTodo_.tasks));",
+									"        ",
+									"        if(lastTodo_.tasks.length){",
+									"            pm.environment.set(\"taskId_\", lastTodo_.tasks[lastTodo_.tasks.length - 1]._id);",
+									"        } else {",
+									"            pm.environment.set(\"taskId_\", \"\");",
+									"        }",
+									"    } else {",
+									"        pm.environment.set(\"todoId_\", \"\");",
+									"        pm.environment.set(\"taskId_\", \"\");",
+									"        pm.environment.set(\"todoIds_\", []);",
+									"        pm.environment.set(\"taskIds_\", []);",
+									"        pm.environment.set(\"tasks_\", []);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{todos}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{todos}}"
+							]
+						},
+						"description": "Get all todos"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /todos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cce80874-04ee-424a-a39f-f5ff7fab2b50",
+								"exec": [
+									"let todos_ = JSON.parse(pm.environment.get(\"todos_\"));",
+									"let lastTodo_ = JSON.parse(responseBody);",
+									"    ",
+									"todos_.push(lastTodo_)",
+									"",
+									"if(!data.errors){",
+									"    pm.environment.set(\"todos_\", JSON.stringify(todos_));",
+									"    pm.environment.set(\"todoId_\", lastTodo_._id);",
+									"    pm.environment.set(\"todoIds_\", todos_.map(todo => todo._id));",
+									"    pm.environment.set(\"taskIds_\", lastTodo_.tasks.map(task => task._id));",
+									"    pm.environment.set(\"tasks_\", JSON.stringify(lastTodo_.tasks));",
+									"    ",
+									"    ",
+									"    if(lastTodo_.tasks.length){",
+									"        pm.environment.set(\"taskId_\", lastTodo_.tasks[lastTodo_.tasks.length - 1]._id);",
+									"    } else {",
+									"        pm.environment.set(\"taskId_\", \"\");",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"My great title\",\n\t\"names\": \"book1\",\n\t\"tasks\": [\n\t]\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{todos}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{todos}}"
+							]
+						},
+						"description": "Create a TODO"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /todos/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "65c9fb2b-6ac2-47d5-a4d4-afcd39820744",
+								"exec": [
+									"let todos_ = (pm.environment.get(\"todos_\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"todos_\")))) ? [] : JSON.parse(pm.environment.get(\"todos_\"));",
+									"let currentTodo_ = JSON.parse(responseBody);",
+									"",
+									"if(!data.errors){",
+									"    let todoIndex = todos_.findIndex(todo => todo._id === currentTodo_._id);",
+									"    if(todoIndex >= 0){",
+									"        todos_[todoIndex] = currentTodo_;",
+									"    } else {",
+									"        todos_.push(currentTodo_);",
+									"    }",
+									"    ",
+									"    pm.environment.set(\"todos_\", JSON.stringify(todos_));",
+									"    pm.environment.set(\"todoId_\", currentTodo_._id);",
+									"    pm.environment.set(\"todoIds_\", todos_.map(todo => todo._id));",
+									"    pm.environment.set(\"taskIds_\", currentTodo_.tasks.map(task => task._id));",
+									"    ",
+									"    let lastTodo_ = currentTodo_;",
+									"    ",
+									"    pm.environment.set(\"tasks_\", JSON.stringify(lastTodo_.tasks));",
+									"    if(lastTodo_.tasks.length){",
+									"        pm.environment.set(\"taskId_\", lastTodo_.tasks[lastTodo_.tasks.length - 1]._id);",
+									"    } else {",
+									"        pm.environment.set(\"taskId_\", \"\");",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{todos}}/{{todoId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{todos}}",
+								"{{todoId_}}"
+							]
+						},
+						"description": "Get a specific todo"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /todos/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f4635115-4372-4fda-9544-7dcd49e38f72",
+								"exec": [
+									"let todos_ = (pm.environment.get(\"todos_\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"todos_\")))) ? [] : JSON.parse(pm.environment.get(\"todos_\"));",
+									"let currentTodo_ = JSON.parse(responseBody);",
+									"",
+									"if(!data.errors){",
+									"    let todoIndex = todos_.findIndex(todo => todo._id === currentTodo_._id);",
+									"    if(todoIndex >= 0){",
+									"        todos_.splice(todoIndex, 1);",
+									"    }",
+									"",
+									"    pm.environment.set(\"todos_\", JSON.stringify(todos_));",
+									"    ",
+									"    if(todos_.length){",
+									"        let newCurrentTodo = todos_[todos_.length - 1];",
+									"",
+									"        pm.environment.set(\"todoId_\", newCurrentTodo._id);",
+									"        pm.environment.set(\"todoIds_\", todos_.map(todo => todo._id));",
+									"        pm.environment.set(\"taskIds_\", newCurrentTodo.tasks.map(task => task._id));",
+									"        ",
+									"        let lastTodo_ = newCurrentTodo;",
+									"        ",
+									"        pm.environment.set(\"tasks_\", JSON.stringify(lastTodo_.tasks));",
+									"        if(lastTodo_.tasks.length){",
+									"            pm.environment.set(\"taskId_\", lastTodo_.tasks[lastTodo_.tasks.length - 1]._id);",
+									"        } else {",
+									"            pm.environment.set(\"taskId_\", \"\");",
+									"        }",
+									"    } else {",
+									"        pm.environment.set(\"todoId_\", \"\");",
+									"        pm.environment.set(\"taskId_\", \"\");",
+									"        pm.environment.set(\"todoIds_\", []);",
+									"        pm.environment.set(\"taskIds_\", []);",
+									"        pm.environment.set(\"tasks_\", []);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{todos}}/{{todoId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{todos}}",
+								"{{todoId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /todos/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f3908c1b-2e3d-4835-ad26-335bea8a33f6",
+								"exec": [
+									"let todos_ = (pm.environment.get(\"todos_\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"todos_\")))) ? [] : JSON.parse(pm.environment.get(\"todos_\"));",
+									"let currentTodo_ = JSON.parse(responseBody);",
+									"",
+									"if(!data.errors){",
+									"    let todoIndex = todos_.findIndex(todo => todo._id === currentTodo_._id);",
+									"    if(todoIndex >= 0){",
+									"        todos_[todoIndex] = currentTodo_;",
+									"    } else {",
+									"        todos_.push(currentTodo_);",
+									"    }",
+									"    ",
+									"    pm.environment.set(\"todos_\", JSON.stringify(todos_));",
+									"    pm.environment.set(\"todoId_\", currentTodo_._id);",
+									"    pm.environment.set(\"todoIds_\", todos_.map(todo => todo._id));",
+									"    pm.environment.set(\"taskIds_\", currentTodo_.tasks.map(task => task._id));",
+									"    ",
+									"    let lastTodo_ = currentTodo_;",
+									"    ",
+									"    pm.environment.set(\"tasks_\", JSON.stringify(lastTodo_.tasks));",
+									"    if(lastTodo_.tasks.length){",
+									"        pm.environment.set(\"taskId_\", lastTodo_.tasks[lastTodo_.tasks.length - 1]._id);",
+									"    } else {",
+									"        pm.environment.set(\"taskId_\", \"\");",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"My first todo list - renamfffeds!!!?\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{todos}}/{{todoId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{todos}}",
+								"{{todoId_}}"
+							]
+						},
+						"description": "Update TODO info"
+					},
+					"response": []
+				},
+				{
+					"name": "GET /todos/:todoId/tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f67e296b-dc54-485e-83ba-c95a9317527c",
+								"exec": [
+									"let todos_ = (pm.environment.get(\"todos_\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"todos_\")))) ? [] : JSON.parse(pm.environment.get(\"todos_\"));",
+									"let currentTaskList = JSON.parse(responseBody);",
+									"let currentTodoId = pm.environment.get(\"todoId_\");",
+									"",
+									"if(!data.errors){",
+									"    let todoIndex = todos_.findIndex(todo => todo._id === currentTodoId);",
+									"    if(todoIndex >= 0){",
+									"        let currentTodo_ = todos_[todoIndex];",
+									"        ",
+									"        currentTodo_.tasks = currentTaskList;",
+									"    ",
+									"        pm.environment.set(\"todos_\", JSON.stringify(todos_));",
+									"        pm.environment.set(\"todoId_\", currentTodo_._id);",
+									"        pm.environment.set(\"todoIds_\", todos_.map(todo => todo._id));",
+									"        pm.environment.set(\"taskIds_\", currentTodo_.tasks.map(task => task._id));",
+									"        ",
+									"        let lastTodo_ = currentTodo_;",
+									"    ",
+									"        pm.environment.set(\"tasks_\", JSON.stringify(lastTodo_.tasks));",
+									"        if(lastTodo_.tasks.length){",
+									"            pm.environment.set(\"taskId_\", lastTodo_.tasks[lastTodo_.tasks.length - 1]._id);",
+									"        } else {",
+									"            pm.environment.set(\"taskId_\", \"\");",
+									"        }",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{todos}}/{{todoId_}}/{{tasks}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{todos}}",
+								"{{todoId_}}",
+								"{{tasks}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /todos/:todoId/tasks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bc7901ff-0db7-432a-a15c-c4fb8df92140",
+								"exec": [
+									"let todos_ = (pm.environment.get(\"todos_\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"todos_\")))) ? [] : JSON.parse(pm.environment.get(\"todos_\"));",
+									"let lastTask = JSON.parse(responseBody);",
+									"",
+									"let currentTodoId = pm.environment.get(\"todoId_\");",
+									"if(!data.errors){",
+									"    let todoIndex = todos_.findIndex(todo => todo._id === currentTodoId);",
+									"    if(todoIndex >= 0){",
+									"        let lastTodo_ = todos_[todoIndex];",
+									"        ",
+									"        lastTodo_.tasks.push(lastTask);",
+									"        ",
+									"        pm.environment.set(\"todos_\", JSON.stringify(todos_));",
+									"        pm.environment.set(\"todoId_\", lastTodo_._id);",
+									"        pm.environment.set(\"todoIds_\", todos_.map(todo => todo._id));",
+									"        pm.environment.set(\"taskIds_\", lastTodo_.tasks.map(task => task._id));   ",
+									"        pm.environment.set(\"tasks_\", JSON.stringify(lastTodo_.tasks));",
+									"",
+									"        if(lastTodo_.tasks.length){",
+									"            pm.environment.set(\"taskId_\", lastTodo_.tasks[lastTodo_.tasks.length - 1]._id);",
+									"        } else {",
+									"            pm.environment.set(\"taskId_\", \"\");",
+									"        }",
+									"        ",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"description\": \"3332222This is my modified tasks39993\",\n\t\t\"completed\": false\n}\n\n",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{todos}}/{{todoId_}}/{{tasks}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{todos}}",
+								"{{todoId_}}",
+								"{{tasks}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /todos/:todoId/tasks/:taskId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b5785a82-5011-44a2-b15b-45852099c339",
+								"exec": [
+									"let todos_ = (pm.environment.get(\"todos_\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"todos_\")))) ? [] : JSON.parse(pm.environment.get(\"todos_\"));",
+									"",
+									"let currentTask_ = JSON.parse(responseBody);",
+									"let currentTodoId = pm.environment.get(\"todoId_\");",
+									"let currentTaskId = pm.environment.get(\"taskId_\");",
+									"",
+									"if(!data.errors){",
+									"    let todoIndex = todos_.findIndex(todo => todo._id === currentTodoId);",
+									"    if(todoIndex >= 0){",
+									"        let currentTodo_ = todos_[todoIndex];",
+									"        ",
+									"        let taskIndex = currentTodo_.tasks.findIndex(task => task._id === currentTaskId);",
+									"        if(taskIndex >= 0){",
+									"            currentTodo_.tasks[taskIndex] = currentTask_;",
+									"",
+									"            pm.environment.set(\"todos_\", JSON.stringify(todos_));",
+									"            pm.environment.set(\"todoId_\", currentTodo_._id);",
+									"            pm.environment.set(\"taskId_\", currentTaskId);",
+									"            pm.environment.set(\"todoIds_\", todos_.map(todo => todo._id));",
+									"            pm.environment.set(\"taskIds_\", currentTodo_.tasks.map(task => task._id));",
+									"            pm.environment.set(\"tasks_\", JSON.stringify(currentTodo_.tasks));",
+									"        }",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "",
+								"variables": ""
+							},
+							"options": {
+								"graphql": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{todos}}/{{todoId_}}/{{tasks}}/{{taskId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{todos}}",
+								"{{todoId_}}",
+								"{{tasks}}",
+								"{{taskId_}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "GET /todo/:todoId/task/:taskId",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/todo/{{todoId}}/task/5d0e8e9d9de27c0021c5818a",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"todo",
+										"{{todoId}}",
+										"task",
+										"5d0e8e9d9de27c0021c5818a"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "691"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b3-IF91weIMTN/L9gR0Thfr+aDqtJ0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 22 Jun 2019 21:25:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"5d0e8e9d9de27c0021c58186\",\n    \"tasks\": [\n        {\n            \"description\": \"This is my first task\",\n            \"completed\": false,\n            \"_id\": \"5d0e8e9d9de27c0021c5818a\"\n        },\n        {\n            \"description\": \"This is my second task\",\n            \"completed\": false,\n            \"_id\": \"5d0e8e9d9de27c0021c58189\"\n        },\n        {\n            \"description\": \"This is my third task\",\n            \"completed\": false,\n            \"_id\": \"5d0e8e9d9de27c0021c58188\"\n        },\n        {\n            \"description\": \"This is my Fourth task\",\n            \"completed\": true,\n            \"_id\": \"5d0e8e9d9de27c0021c58187\"\n        },\n        {\n            \"description\": \"This is my modified tasks\",\n            \"completed\": true,\n            \"_id\": \"5d0e92ed27253100ef0972bd\"\n        },\n        {\n            \"description\": \"This is my modified tasks\",\n            \"completed\": true,\n            \"_id\": \"5d0e92ee27253100ef0972be\"\n        },\n        {\n            \"description\": \"This is my modified tasks\",\n            \"completed\": true,\n            \"_id\": \"5d0e93d634ceea01091ff5aa\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "DELETE /todos/:todoId/tasks/:taskId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f6e7e5fa-54cc-42f6-91d1-bf337022c5c1",
+								"exec": [
+									"let todos_ = (pm.environment.get(\"todos_\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"todos_\")))) ? [] : JSON.parse(pm.environment.get(\"todos_\"));",
+									"let currentTodoId = pm.environment.get(\"todoId_\");",
+									"let currentTaskId = pm.environment.get(\"taskId_\");",
+									"",
+									"",
+									"if(!data.errors){",
+									"    let todoIndex = todos_.findIndex(todo => todo._id === currentTodoId);",
+									"    if(todoIndex >= 0){",
+									"        let currentTodo_ = todos_[todoIndex];",
+									"        ",
+									"        let taskIndex = currentTodo_.tasks.findIndex(task => task._id === currentTaskId);",
+									"        if(taskIndex >= 0){",
+									"            currentTodo_.tasks.splice(taskIndex, 1);",
+									"        }",
+									"        ",
+									"        pm.environment.set(\"todoId_\", currentTodoId);",
+									"        pm.environment.set(\"todoIds_\", todos_.map(todo => todo._id));",
+									"        pm.environment.set(\"taskIds_\", currentTodo_.tasks.map(task => task._id));",
+									"        pm.environment.set(\"tasks_\", JSON.stringify(currentTodo_.tasks));",
+									"        ",
+									"        if(!currentTodo_.tasks.length){",
+									"            pm.environment.set(\"taskId_\", []);   ",
+									"        } else {",
+									"            pm.environment.set(\"taskId_\", currentTodo_.tasks[currentTodo_.tasks.length - 1]._id);",
+									"        }",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{todos}}/{{todoId_}}/{{tasks}}/{{taskId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{todos}}",
+								"{{todoId_}}",
+								"{{tasks}}",
+								"{{taskId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /todos/:todoId/tasks/:taskId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7b4904ac-815e-4d6b-811c-f450574f9634",
+								"exec": [
+									"let todos_ = (pm.environment.get(\"todos_\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"todos_\")))) ? [] : JSON.parse(pm.environment.get(\"todos_\"));",
+									"let currentTask_ = JSON.parse(responseBody);",
+									"let currentTodoId = pm.environment.get(\"todoId_\");",
+									"let currentTaskId = pm.environment.get(\"taskId_\");",
+									"",
+									"if(!data.errors){",
+									"    let todoIndex = todos_.findIndex(todo => todo._id === currentTodoId);",
+									"    if(todoIndex >= 0){",
+									"        let currentTodo_ = todos_[todoIndex];",
+									"        ",
+									"        let taskIndex = currentTodo_.tasks.findIndex(task => task._id === currentTaskId);",
+									"        if(taskIndex >= 0){",
+									"            currentTodo_.tasks[taskIndex] = currentTask_;",
+									"",
+									"            pm.environment.set(\"todos_\", JSON.stringify(todos_));",
+									"            pm.environment.set(\"todoId_\", currentTodo_._id);",
+									"            pm.environment.set(\"taskId_\", currentTaskId);",
+									"            pm.environment.set(\"todoIds_\", todos_.map(todo => todo._id));",
+									"            pm.environment.set(\"taskIds_\", currentTodo_.tasks.map(task => task._id));",
+									"            pm.environment.set(\"tasks_\", JSON.stringify(currentTodo_.tasks));",
+									"        }",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"completed\": true\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{todos}}/{{todoId_}}/{{tasks}}/{{taskId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{todos}}",
+								"{{todoId_}}",
+								"{{tasks}}",
+								"{{taskId_}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "GET /users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ae1df83e-94c8-49ed-b61c-d72f1f0e7e4c",
+								"exec": [
+									"if(!data.errors){",
+									"    let users = JSON.parse(responseBody);",
+									"    let user = users.length ? users[users.length - 1] : {id: \"\"}",
+									"",
+									"    pm.environment.set(\"userId_\", user._id)",
+									"    pm.environment.set(\"user\", JSON.stringify(user))",
+									"    pm.environment.set(\"users\", JSON.stringify(users));",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{usersUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usersUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f214fee4-fad9-4db7-8822-a18b6e1d08cc",
+								"exec": [
+									"if(!data.errors){",
+									"    let data = JSON.parse(responseBody);",
+									"    let userData = data.user;",
+									"",
+									"    pm.environment.set(\"userId_\", userData._id);",
+									"    pm.environment.set(\"user\", JSON.stringify(userData));",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{usersUrl}}/me",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usersUrl}}",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /users/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f752745b-efbf-4641-8c14-91ccdd0d7756",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let users = (pm.environment.get(\"users\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"users\")))) ? [] : JSON.parse(pm.environment.get(\"users\"));",
+									"        let user = JSON.parse(responseBody);",
+									"        ",
+									"        //Setting new value for user, if reset",
+									"        let userIndex = users.findIndex(currUser => currUser._id === user._id);",
+									"        if(userIndex >= 0){",
+									"            users[userIndex] = user;",
+									"        } else {",
+									"            users.push(user);",
+									"        }",
+									"    ",
+									"        pm.environment.set(\"userId_\", user._id);",
+									"        pm.environment.set(\"user\", JSON.stringify(user));",
+									"        pm.environment.set(\"users\", JSON.stringify(users));",
+									"    } catch(e){}",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{usersUrl}}/{{userId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usersUrl}}",
+								"{{userId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "74408ae6-6ec5-4454-88d7-51a72fe574c7",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let user = JSON.parse(responseBody);",
+									"        let requestData = JSON.parse(request.data);",
+									"        ",
+									"        let users = (pm.environment.get(\"users\") === undefined || typeof(pm.environment.get(\"users\")) !== \"object\" || !Array.isArray(JSON.parse(pm.environment.get(\"users\")))) ? [] : JSON.parse(pm.environment.get(\"users\"));",
+									"        ",
+									"        user.password = requestData.password;",
+									"        ",
+									"        users.push(user);",
+									"",
+									"        pm.environment.set(\"userId_\", user._id);",
+									"        pm.environment.set(\"user\", JSON.stringify(user));",
+									"        pm.environment.set(\"password\", user.password);",
+									"        pm.environment.set(\"email\", requestData.email);",
+									"        pm.environment.set(\"users\", JSON.stringify(users));",
+									"    } catch(e){}",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"Russel\",\n\t\"lastName\": \"Gaultier\",\n\t\"email\": \"gauthier.russel55@gmail.com\",\n\t\"password\": \"aR1#Jekld@3dkd@\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{usersUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usersUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8ec61acd-b736-4804-a55d-45e4a32d4e6e",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let user = JSON.parse(responseBody);",
+									"        let requestData = JSON.parse(request.data);",
+									"        ",
+									"        let users = (pm.environment.get(\"users\") === undefined || typeof(pm.environment.get(\"users\")) !== \"object\" || !Array.isArray(JSON.parse(pm.environment.get(\"users\")))) ? [] : JSON.parse(pm.environment.get(\"users\"));",
+									"        ",
+									"        user.password = requestData.password;",
+									"        ",
+									"        users.push(user);",
+									"",
+									"        pm.environment.set(\"userId_\", user._id);",
+									"        pm.environment.set(\"user\", JSON.stringify(user));",
+									"        pm.environment.set(\"password\", user.password);",
+									"        pm.environment.set(\"email\", requestData.email);",
+									"        pm.environment.set(\"users\", JSON.stringify(users));",
+									"    } catch(e){}",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"Zac\",\n\t\"lastName\": \"Gauthier\",\n\t\"email\": \"gauthier.zac@gmail.com\",\n\t\"password\": \"aR1#Jekld@3dkd@\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{usersUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usersUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9b280a4b-3034-4c33-be30-1e1c6c557454",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let user = JSON.parse(responseBody);",
+									"        let requestData = JSON.parse(request.data);",
+									"        ",
+									"        let users = (pm.environment.get(\"users\") === undefined || typeof(pm.environment.get(\"users\")) !== \"object\" || !Array.isArray(JSON.parse(pm.environment.get(\"users\")))) ? [] : JSON.parse(pm.environment.get(\"users\"));",
+									"        ",
+									"        user.password = requestData.password;",
+									"        ",
+									"        users.push(user);",
+									"",
+									"        pm.environment.set(\"userId_\", user._id);",
+									"        pm.environment.set(\"user\", JSON.stringify(user));",
+									"        pm.environment.set(\"password\", user.password);",
+									"        pm.environment.set(\"email\", requestData.email);",
+									"        pm.environment.set(\"users\", JSON.stringify(users));",
+									"    } catch(e){}",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"Zacarías\",\n\t\"lastName\": \"Gutiérrez\",\n\t\"email\": \"gutierrez.zacarias@gmail.com\",\n\t\"password\": \"J:KLDewriou432dfs,\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{usersUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usersUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /users/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "853b1205-9a95-44bf-8c75-b04017790184",
+								"exec": [
+									"if(!data.errors){",
+									"    let login_results = JSON.parse(responseBody);",
+									"    pm.environment.set(\"login_results\", JSON.stringify(login_results));",
+									"    pm.environment.set(\"login_jwttoken\", login_results.token);",
+									"    pm.environment.set(\"login_exp\", JSON.stringify(login_results.exp));",
+									"    ",
+									"    let id_ = login_results._id;",
+									"    ",
+									"    ",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"password\": \"{{password}}\", \"email\": \"{{email}}\"}\n",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{usersUrl}}/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usersUrl}}",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /users/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "74695b81-e78c-45ad-91b0-ee8cf6d45aa1",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let user = JSON.parse(responseBody);",
+									"        let users = (pm.environment.get(\"users\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"users\")))) ? [] : JSON.parse(pm.environment.get(\"users\"));",
+									"",
+									"        let userIndex = users.findIndex(currUser => currUser._id === user._id);",
+									"        if(userIndex >= 0){",
+									"            users[userIndex] = user;",
+									"        } else {",
+									"            users.push(user);",
+									"        }",
+									"    ",
+									"        pm.environment.set(\"userId_\", user._id);",
+									"        pm.environment.set(\"user\", JSON.stringify(user));",
+									"        pm.environment.set(\"users\", JSON.stringify(users));",
+									"    } catch(e){}",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"lastName\": \"LaSallio\",\n\t\"email\": \"gauthier.zacius@gmail.com\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{usersUrl}}/{{userId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usersUrl}}",
+								"{{userId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /users/:id/password",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"passwordPrev\": \"{{password}}\", \"passwordNew\": \"abetterpassword1!\"}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{usersUrl}}/{{userId_}}/password",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usersUrl}}",
+								"{{userId_}}",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /users/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2a04dca1-c62e-4e5b-a5c7-4a76da1c2247",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let user = JSON.parse(responseBody);",
+									"        let users = (pm.environment.get(\"users\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"users\")))) ? [] : JSON.parse(pm.environment.get(\"users\"));",
+									"",
+									"        //Resetting users",
+									"        users = users.filter(currUser => currUser._id !== user._id);",
+									"        user = users.length ? users[users.length - 1] : {id: \"\"}",
+									"    ",
+									"        pm.environment.set(\"userId_\", user._id);",
+									"        pm.environment.set(\"user\", JSON.stringify(user));",
+									"        pm.environment.set(\"users\", JSON.stringify(users));",
+									"    } catch(e){}",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{usersUrl}}/{{userId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usersUrl}}",
+								"{{userId_}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "usergroups",
+			"item": [
+				{
+					"name": "GET /usergroups",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b0741a9b-1439-41e0-8484-cbaafb4c976f",
+								"exec": [
+									"if(!data.errors){",
+									"    let usergroups = JSON.parse(responseBody);",
+									"    ",
+									"    let usergroup = usergroups.length ? usergroups[usergroups.length - 1] : {id: \"\"}",
+									"",
+									"    pm.environment.set(\"usergroupId_\", usergroup._id)",
+									"    pm.environment.set(\"usergroup\", JSON.stringify(usergroup))",
+									"    pm.environment.set(\"usergroups\", JSON.stringify(usergroups));",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{usergroupsUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usergroupsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /usergroups/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2d9cab76-0d1e-4e87-b9da-65b042c2af81",
+								"exec": [
+									"if(!data.errors){",
+									"    try {",
+									"        let usergroups = (pm.environment.get(\"usergroups\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"usergroups\")))) ? [] : JSON.parse(pm.environment.get(\"usergroups\"));",
+									"        let usergroup = JSON.parse(responseBody);",
+									"        ",
+									"        //Setting new value for user, if reset",
+									"        let usergroupIndex = usergroups.findIndex(currUsergroup => currUsergroup._id === user._id);",
+									"        if(usergroupIndex >= 0){",
+									"            usergroups[usergroupIndex] = user;",
+									"        } else {",
+									"            usergroups.push(usergroup);",
+									"        }",
+									"    ",
+									"        pm.environment.set(\"usergroupId_\", usergroup._id);",
+									"        pm.environment.set(\"usergroup\", JSON.stringify(usergroup));",
+									"        pm.environment.set(\"usergroups\", JSON.stringify(usergroups));",
+									"    } catch(e){}",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{usergroupsUrl}}/{{usergroupId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usergroupsUrl}}",
+								"{{usergroupId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /usergroups 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6c0023ba-8239-4e59-8144-cedf431c62c7",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let usergroup = JSON.parse(responseBody);",
+									"        let usergroups = (pm.environment.get(\"usergroups\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"usergroups\")))) ? [] : JSON.parse(pm.environment.get(\"usergroups\"));",
+									"        ",
+									"        usergroups.push(usergroup);",
+									"        ",
+									"        pm.environment.set(\"usergroupId_\", usergroup._id);",
+									"        pm.environment.set(\"usergroup\", JSON.stringify(usergroup));",
+									"        pm.environment.set(\"usergroups\", JSON.stringify(usergroups));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"HR Group\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{usergroupsUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usergroupsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /usergroups 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "08178890-0b57-483a-b15a-2261c66052cb",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let usergroup = JSON.parse(responseBody);",
+									"        let usergroups = (pm.environment.get(\"usergroups\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"usergroups\")))) ? [] : JSON.parse(pm.environment.get(\"usergroups\"));",
+									"        usergroup.push(usergroup);",
+									"        ",
+									"        pm.environment.set(\"usergroupId_\", usergroup._id);",
+									"        pm.environment.set(\"usergroup\", JSON.stringify(usergroup));",
+									"        pm.environment.set(\"usergroups\", JSON.stringify(usergroups));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"HR Group2\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{usergroupsUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usergroupsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /usergroups 3 - subgroups",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "025602f1-b91d-4597-aaf5-6058982e8ff3",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let usergroup = JSON.parse(responseBody);",
+									"        let usergroups = (pm.environment.get(\"usergroups\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"usergroups\")))) ? [] : JSON.parse(pm.environment.get(\"usergroups\"));",
+									"        usergroups.push(usergroup);",
+									"        ",
+									"        pm.environment.set(\"usergroupId_\", usergroup._id);",
+									"        pm.environment.set(\"usergroup\", JSON.stringify(usergroup));",
+									"        pm.environment.set(\"usergroups\", JSON.stringify(usergroups));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"HR Group4\",\n\t\"_parent\": \"{{usergroupId_}}\"\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{usergroupsUrl}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usergroupsUrl}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH /usergroups/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6dc412c1-81d3-48c1-b561-801b15582914",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let usergroup = JSON.parse(responseBody);",
+									"        let usergroups = (pm.environment.get(\"usergroups\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"usergroups\")))) ? [] : JSON.parse(pm.environment.get(\"usergroups\"));",
+									"",
+									"        //Setting new value for usergroup, if Reset",
+									"        let usergroupIndex = usergroups.findIndex(currUsergroup => currUsergroup._id === usergroup._id);",
+									"        if (usergroupIndex >= 0) {",
+									"            usergroups[usergroupIndex] = usergroup;",
+									"        } else {",
+									"            usergroups.push(usergroup);",
+									"        }",
+									"",
+									"        pm.environment.set(\"usergroupId_\", usergroup._id);",
+									"        pm.environment.set(\"usergroup\", JSON.stringify(usergroup));",
+									"        pm.environment.set(\"usergroups\", JSON.stringify(usergroups));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Department Name Patched\",\n\t\"_users\": [\"{{userId_}}\"]\n}",
+							"options": {
+								"raw": {}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/{{usergroupsUrl}}/{{usergroupId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usergroupsUrl}}",
+								"{{usergroupId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /usergroups/:id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "75aa573c-eee9-440c-bdc9-70c2e2374843",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let usergroup = JSON.parse(responseBody);",
+									"        let usergroups = (pm.environment.get(\"usergroups\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"usergroups\")))) ? [] : JSON.parse(pm.environment.get(\"usergroups\"));",
+									"",
+									"        //Resetting usergroups",
+									"        usergroups = usergroups.filter(currUsergroup => currUsergroup._id !== usergroup._id);",
+									"",
+									"        usergroup = usergroups.length ? usergroups[usergroups.length - 1] : { id: \"\" }",
+									"",
+									"        pm.environment.set(\"usergroupId_\", usergroup._id);",
+									"        pm.environment.set(\"usergroup\", JSON.stringify(usergroup));",
+									"        pm.environment.set(\"usergroups\", JSON.stringify(usergroups));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{usergroupsUrl}}/{{usergroupId_}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usergroupsUrl}}",
+								"{{usergroupId_}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /usergroups/:id (customid)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "51d5222f-c0a7-4ef4-bde5-87a811ac15b2",
+								"exec": [
+									"if (!data.errors) {",
+									"    try {",
+									"        let usergroup = JSON.parse(responseBody);",
+									"        let usergroups = (pm.environment.get(\"usergroups\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"usergroups\")))) ? [] : JSON.parse(pm.environment.get(\"usergroups\"));",
+									"",
+									"        //Resetting usergroups",
+									"        usergroups = usergroups.filter(currUsergroup => currUsergroup._id !== usergroup._id);",
+									"",
+									"        usergroup = usergroups.length ? usergroups[usergroups.length - 1] : { id: \"\" }",
+									"",
+									"        pm.environment.set(\"usergroupId_\", usergroup._id);",
+									"        pm.environment.set(\"usergroup\", JSON.stringify(usergroup));",
+									"        pm.environment.set(\"usergroups\", JSON.stringify(usergroups));",
+									"    } catch (e) { }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{login_jwttoken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{usergroupsUrl}}/5f395ff96072bc01e923c749",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{usergroupsUrl}}",
+								"5f395ff96072bc01e923c749"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "graphql",
+			"item": [
+				{
+					"name": "companyflat_test",
+					"item": [
+						{
+							"name": "companyflat_populate",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/ax-apollo/companyflatfill",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"ax-apollo",
+										"companyflatfill"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "companyflat_getall",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "a66f4909-305a-4dea-a764-d26970234e5f",
+										"exec": [
+											"if (!data.errors) {",
+											"    let companyflat = JSON.parse(responseBody).data.companyflat",
+											"",
+											"    pm.environment.set(\"companyflat\", companyflat)",
+											"    pm.environment.set(\"companyflat_objectId_0\", companyflat._id)",
+											"    pm.environment.set(\"companyflat_dateArrayRequiredInnerNonRequired\", companyflat.dateArrayRequiredInnerNonRequired[0])",
+											"    pm.environment.set(\"companyflat_objectIdRequired\", companyflat.objectIdRequired)",
+											"    pm.environment.set(\"predicateTestObjectIDArrayNullableInner\", companyflat.predicateTestObjectIDArrayNullableInner[1])",
+											"    pm.environment.set(\"predicateTestObjectIDArray\", companyflat.predicateTestObjectIDArray[0])",
+											"    pm.environment.set(\"companyflat_predicateTestStringArray\", JSON.stringify(companyflat.predicateTestStringArray))",
+											"    pm.environment.set(\"companyflat_typeTestDate\", companyflat.typeTestDate)",
+											"    pm.environment.set(\"companyflat_typeTestDecimal128\", companyflat.typeTestDecimal128)",
+											"    pm.environment.set(\"companyflat_typeTestInt32\", companyflat.typeTestInt32)",
+											"    pm.environment.set(\"companyflat_typeTestLong\", companyflat.typeTestLong)",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\n    companyflat {\n        booleanArrayNonRequired\n        booleanNonRequired\n        booleanRequired\n        dateArrayRequiredInnerNonRequired\n        numberEnumNonRequired\n        numberRequired\n        objectArrayNonRequired {\n        creationDate\n        name\n        people {\n            innerArray\n            within\n            without\n        }\n        status\n        companyRef\n        _id\n        }\n        objectArrayRequired {\n        creationDate\n        name\n        _id\n        }\n        objectIdArrayNonRequiredInnerRequired\n        objectIdRequired\n        objectNestedNonRequired {\n        company\n        flag\n        }\n        objectNestedRequired {\n        age\n        name\n        }\n\n        ## Predicate Boolean Array Tests ###\n        predicateTestBooleanArray\n        predicateTestBooleanArrayNull\n        predicateTestBooleanArrayNullable\n        predicateTestBooleanArrayNullableInner\n        predicateTestBooleanArrayNullInner\n            \n        ### Predicate Buffer Array Tests ###\n        predicateTestBufferArray\n        predicateTestBufferArrayNull\n        predicateTestBufferArrayNullable\n        predicateTestBufferArrayNullableInner\n        predicateTestBufferArrayNullInner\n        \n        ### Predicate Date Array Tests ###\n        predicateTestDateArray\n        predicateTestDateArrayNull\n        predicateTestDateArrayNullable\n        predicateTestDateArrayNullableInner\n        predicateTestDateArrayNullInner\n\n        ## Predicate Decimal128 Array Tests ###\n        # predicateTestDecimal128Array\n        # predicateTestDecimal128ArrayNull\n        # predicateTestDecimal128ArrayNullable\n        # predicateTestDecimal128ArrayNullableInner\n        # predicateTestDecimal128ArrayNullInner\n        \n        ## Predicate Int32 Array Tests ###\n        predicateTestInt32Array\n        predicateTestInt32ArrayNull\n        predicateTestInt32ArrayNullable\n        predicateTestInt32ArrayNullableInner\n        predicateTestInt32ArrayNullInner\n\n        ## Predicate Long Array Tests ###\n        predicateTestLongArray\n        predicateTestLongArrayNull\n        predicateTestLongArrayNullable\n        predicateTestLongArrayNullableInner\n        predicateTestLongArrayNullInner\n\n        ## Predicate Number Array Tests ###\n        predicateTestNumberArray\n        predicateTestNumberArrayNull\n        predicateTestNumberArrayNullable\n        predicateTestNumberArrayNullableInner\n        predicateTestNumberArrayNullInner\n\n        ### Predicate ObjectID Array Tests ###\n        predicateTestObjectIDArray\n        predicateTestObjectIDArrayNull\n        predicateTestObjectIDArrayNullable\n        predicateTestObjectIDArrayNullableInner\n        predicateTestObjectIDArrayNullInner\n\n        ## Predicate String Array Tests ###\n        predicateTestStringArray\n        predicateTestStringArrayNull\n        predicateTestStringArrayNullable\n        predicateTestStringArrayNullableInner\n        predicateTestStringArrayNullInner\n\n        status\n        stringArrayNonRequiredInnerRequired\n        stringRequired\n        stringRequiredInnerRequired\n        typeTestBuffer\n        typeTestBufferNull\n        typeTestBufferNullable\n        typeTestDate\n        typeTestDateNull\n        typeTestDateNullable\n        typeTestDecimal128\n        typeTestDecimal128Null\n        typeTestDecimal128Nullable\n        typeTestInt32\n        typeTestInt32Null\n        typeTestInt32Nullable\n        typeTestLong\n        typeTestLongNull\n        typeTestLongNullable\n        typeTestTripleNested {\n        a {\n            b {\n            c\n            d\n            }\n            e\n        }\n        }\n        _id\n    }\n}",
+										"variables": ""
+									},
+									"options": {
+										"graphql": {}
+									}
+								},
+								"url": {
+									"raw": "{{url_graphqltest}}",
+									"host": [
+										"{{url_graphqltest}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "companyflat_predicate_tests_0",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "bbd32ab5-7fcc-475e-8545-5e6c365b6ee2",
+										"exec": [
+											"if (!data.errors) {",
+											"   // let companyflat = JSON.parse(responseBody).data.companyflat",
+											"    console.log(pm.environment.get(\"companyflat_dateArrayRequiredInnerNonRequired\"))",
+											"   // pm.environment.set(\"companyflat\", JSON.stringify(companyflat))",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\n  companyflats(predicates:{\n    booleanArrayNonRequired:{eq_:[true, false, true, true, false]}\n    booleanNonRequired:{eq:true}\n    booleanRequired:{eq:true}\n    dateArrayRequiredInnerNonRequired:{\n        eq_:[\"{{companyflat_dateArrayRequiredInnerNonRequired}}\",\"{{companyflat_dateArrayRequiredInnerNonRequired}}\", \"{{companyflat_dateArrayRequiredInnerNonRequired}}\"]\n    }\n    numberRequired:{eq:99}\n    objectIdRequired:{eq:\"{{companyflat_objectIdRequired}}\"}\n    objectNestedNonRequired: {\n        company:{eq:\"red\"}\n        flag:{eq:\"purple\"}\n    }\n    objectNestedRequired: {\n        age: {eq:80}\n        name:{eq:\"John Lennon\"}\n    }\n\n    predicateTestBooleanArray: { eq_: [true, false, true] }\n    predicateTestBooleanArrayNull: { eq: null }\n    predicateTestBooleanArrayNullable: { all: null }\n    predicateTestBooleanArrayNullInner: { eq_: [null, null, null]}\n    predicateTestBooleanArrayNullableInner: { ne:false }\n\n    predicateTestDateArray: { gt: \"2020-05-11\" }\n    predicateTestDateArrayNull: { eq: null }\n    predicateTestDateArrayNullable: { all: null }\n    predicateTestDateArrayNullInner: { eq_: [null, null, null]}\n    predicateTestDateArrayNullableInner: { lt:\"2021-06-11\" }\n\n    predicateTestDecimal128Array: { all: [\"3.3E+13\"] }\n    predicateTestDecimal128ArrayNull: { eq: null }\n    predicateTestDecimal128ArrayNullable: { all: null }\n    predicateTestDecimal128ArrayNullInner: { eq_: [null, null, null]}\n    predicateTestDecimal128ArrayNullableInner: { lt:\"4.2E+8\" }\n    \n    predicateTestInt32Array: { all: [99] }\n    predicateTestInt32ArrayNull: { eq: null }\n    predicateTestInt32ArrayNullable: { all: null }\n    predicateTestInt32ArrayNullInner: { eq_: [null, null, null]}\n    predicateTestInt32ArrayNullableInner: { gte:2 }\n    \n    predicateTestLongArray: { all: [\"2948350743031682414\"] }\n    predicateTestLongArrayNull: { eq: null }\n    predicateTestLongArrayNullable: { all: null }\n    predicateTestLongArrayNullInner: { eq_: [null, null, null]}\n    predicateTestLongArrayNullableInner: { gt:\"9E+5\" }\n    \n    predicateTestNumberArray: { all: [22.222] }\n    predicateTestNumberArrayNull: { eq: null }\n    predicateTestNumberArrayNullable: { all: null }\n    predicateTestNumberArrayNullInner: { eq_: [null, null, null]}\n    predicateTestNumberArrayNullableInner: { all:[55555.55555] }\n\n    predicateTestObjectIDArray: { all: [\"{{predicateTestObjectIDArray}}\"] }\n    predicateTestObjectIDArrayNull: { eq: null }\n    predicateTestObjectIDArrayNullable: { all: null }\n    predicateTestObjectIDArrayNullInner: { eq_: [null, null, null]}\n    predicateTestObjectIDArrayNullableInner: { all:[\"{{predicateTestObjectIDArrayNullableInner}}\"] }\n    \n    predicateTestStringArray: {eq_:{{companyflat_predicateTestStringArray}}}\n    predicateTestStringArrayNull:{\n        eq:null\n    }\n    predicateTestStringArrayNullable: {\n        eq:null\n    }\n    predicateTestStringArrayNullInner:{eq_:[null,null,null]}\n    predicateTestStringArrayNullableInner:{eq:null}\n    \n    status:{ne:DEAD}\n    stringArrayNonRequiredInnerRequired:{\n        eq:\"Benjamin Franklin\"\n    }\n    stringRequired:{eq:\"RZGInc\"}\n\n    typeTestBuffer:{eq_:\"QUJDRA==\"}\n    typeTestBufferNull:{eq:null}\n    typeTestBufferNullable:{eq:null}\n    typeTestDate: { lt: \"2040-06-20T23:19:17.363Z\" }\n    typeTestDateNull: { eq: null }\n    typeTestDateNullable: { eq: null }\n    typeTestDecimal128:{eq:\"{{companyflat_typeTestDecimal128}}\"}\n    typeTestDecimal128Null:{eq:null}\n    typeTestDecimal128Nullable:{eq:null}\n    typeTestInt32:{eq:{{companyflat_typeTestInt32}}}\n    typeTestInt32Null:{eq:null}\n    typeTestInt32Nullable:{eq:null}\n    typeTestLong:{eq:\"{{companyflat_typeTestLong}}\"}\n    typeTestLongNull:{eq:null}\n    typeTestLongNullable:{eq:null}\n    typeTestTripleNested:{\n        a:{\n            b:{\n                c:{eq:\"CCC\",gt:\"AAA\"}\n                d:{eq:\"DDDD\"}\n            },\n            e:{eq:\"EEEEE\"}\n        }\n    }\n  }){\n    booleanArrayNonRequired\n    booleanNonRequired\n    booleanRequired\n    dateArrayRequiredInnerNonRequired\n    numberEnumNonRequired\n    numberRequired\n    objectArrayNonRequired {\n      creationDate\n      name\n      people {\n        innerArray\n        within\n        without\n      }\n      status\n      companyRef\n      _id\n    }\n    objectArrayRequired {\n      creationDate\n      name\n      _id\n    }\n    objectIdArrayNonRequiredInnerRequired\n    objectIdRequired\n    objectNestedNonRequired {\n      company\n      flag\n    }\n    objectNestedRequired {\n      age\n      name\n    }\n    predicateTestDateArray\n    predicateTestDateArrayNull\n    predicateTestDateArrayNullable\n    predicateTestDateArrayNullableInner\n    predicateTestDateArrayNullInner\n\n    predicateTestDecimal128Array\n    predicateTestDecimal128ArrayNull\n    predicateTestDecimal128ArrayNullable\n    predicateTestDecimal128ArrayNullableInner\n    predicateTestDecimal128ArrayNullInner\n\n    predicateTestInt32Array\n    predicateTestInt32ArrayNull\n    predicateTestInt32ArrayNullable\n    predicateTestInt32ArrayNullableInner\n    predicateTestInt32ArrayNullInner\n\n    predicateTestLongArray\n    predicateTestLongArrayNull\n    predicateTestLongArrayNullable\n    predicateTestLongArrayNullableInner\n    predicateTestLongArrayNullInner\n\n    predicateTestNumberArray\n    predicateTestNumberArrayNull\n    predicateTestNumberArrayNullable\n    predicateTestNumberArrayNullableInner\n    predicateTestNumberArrayNullInner\n\n    predicateTestObjectIDArray\n    predicateTestObjectIDArrayNull\n    predicateTestObjectIDArrayNullable\n    predicateTestObjectIDArrayNullableInner\n    predicateTestObjectIDArrayNullInner\n\n    predicateTestStringArray\n    predicateTestStringArrayNull\n    predicateTestStringArrayNullable\n    predicateTestStringArrayNullableInner\n    predicateTestStringArrayNullInner\n    status\n    stringArrayNonRequiredInnerRequired\n    stringRequired\n    stringRequiredInnerRequired\n    typeTestBuffer\n    typeTestBufferNull\n    typeTestBufferNullable\n    typeTestDate\n    typeTestDateNull\n    typeTestDateNullable\n    typeTestDecimal128\n    typeTestDecimal128Null\n    typeTestDecimal128Nullable\n    typeTestInt32\n    typeTestInt32Null\n    typeTestInt32Nullable\n    typeTestLong\n    typeTestLongNull\n    typeTestLongNullable\n    typeTestTripleNested {\n      a {\n          b {\n              c\n              d\n          }\n          e\n      }\n    }\n    _id\n  }\n}",
+										"variables": ""
+									},
+									"options": {
+										"graphql": {}
+									}
+								},
+								"url": {
+									"raw": "{{url_graphqltest}}",
+									"host": [
+										"{{url_graphqltest}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "companyflat_predicate_tests_or",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b3080d09-c46c-472d-be58-e8a30affaacc",
+										"exec": [
+											"if (!data.errors) {",
+											"   // let companyflat = JSON.parse(responseBody).data.companyflat",
+											"    console.log(pm.environment.get(\"companyflat_dateArrayRequiredInnerNonRequired\"))",
+											"   // pm.environment.set(\"companyflat\", JSON.stringify(companyflat))",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\n  companyflats(predicates:{\n    or: [\n      {\n            objectNestedRequired: {\n              age: {eq:80}\n            }\n      }\n      {\n        booleanArrayNonRequired:{eq_:[true, false, true, true, false]}\n        booleanNonRequired:{eq:true}\n        booleanRequired:{eq:true}\n        dateArrayRequiredInnerNonRequired:{\n            eq_:[\"{{companyflat_dateArrayRequiredInnerNonRequired}}\",\"{{companyflat_dateArrayRequiredInnerNonRequired}}\", \"{{companyflat_dateArrayRequiredInnerNonRequired}}\"]\n        }\n        numberRequired:{eq:99}\n        objectIdRequired:{eq:\"{{companyflat_objectIdRequired}}\"}\n        objectNestedNonRequired: {\n            company:{eq:\"red\"}\n            flag:{eq:\"purple\"}\n        }\n        objectNestedRequired: {\n            age: {eq:80}\n            name:{eq:\"John Lennon\"}\n        }\n\n        predicateTestBooleanArray: { eq_: [true, false, true] }\n        predicateTestBooleanArrayNull: { eq: null }\n        predicateTestBooleanArrayNullable: { all: null }\n        predicateTestBooleanArrayNullInner: { eq_: [null, null, null]}\n        predicateTestBooleanArrayNullableInner: { ne:false }\n\n        predicateTestDateArray: { gt: \"2020-05-11\" }\n        predicateTestDateArrayNull: { eq: null }\n        predicateTestDateArrayNullable: { all: null }\n        predicateTestDateArrayNullInner: { eq_: [null, null, null]}\n        predicateTestDateArrayNullableInner: { lt:\"2021-06-11\" }\n\n        predicateTestDecimal128Array: { all: [\"3.3E+13\"] }\n        predicateTestDecimal128ArrayNull: { eq: null }\n        predicateTestDecimal128ArrayNullable: { all: null }\n        predicateTestDecimal128ArrayNullInner: { eq_: [null, null, null]}\n        predicateTestDecimal128ArrayNullableInner: { lt:\"4.2E+8\" }\n        \n        predicateTestInt32Array: { all: [444] }\n        predicateTestInt32ArrayNull: { eq: null }\n        predicateTestInt32ArrayNullable: { all: null }\n        predicateTestInt32ArrayNullInner: { eq_: [null, null, null]}\n        predicateTestInt32ArrayNullableInner: { gte:19 }\n        \n        predicateTestLongArray: { all: [\"2948350743031682414\"] }\n        predicateTestLongArrayNull: { eq: null }\n        predicateTestLongArrayNullable: { all: null }\n        predicateTestLongArrayNullInner: { eq_: [null, null, null]}\n        predicateTestLongArrayNullableInner: { gt:\"9E+5\" }\n        \n        predicateTestNumberArray: { all: [22.222] }\n        predicateTestNumberArrayNull: { eq: null }\n        predicateTestNumberArrayNullable: { all: null }\n        predicateTestNumberArrayNullInner: { eq_: [null, null, null]}\n        predicateTestNumberArrayNullableInner: { all:[55555.55555] }\n\n        predicateTestObjectIDArray: { all: [\"{{predicateTestObjectIDArray}}\"] }\n        predicateTestObjectIDArrayNull: { eq: null }\n        predicateTestObjectIDArrayNullable: { all: null }\n        predicateTestObjectIDArrayNullInner: { eq_: [null, null, null]}\n        predicateTestObjectIDArrayNullableInner: { all:[\"{{predicateTestObjectIDArrayNullableInner}}\"] }\n        \n        predicateTestStringArray: {eq_:{{companyflat_predicateTestStringArray}}}\n        predicateTestStringArrayNull:{\n            eq:null\n        }\n        predicateTestStringArrayNullable: {\n            eq:null\n        }\n        predicateTestStringArrayNullInner:{eq_:[null,null,null]}\n        predicateTestStringArrayNullableInner:{eq:null}\n        \n        status:{ne:DEAD}\n        stringArrayNonRequiredInnerRequired:{\n            eq:\"Benjamin Franklin\"\n        }\n        stringRequired:{eq:\"RZGInc\"}\n\n        #typeTestBuffer:{eq:\"MTIz\"}\n        typeTestBufferNull:{eq:null}\n        typeTestBufferNullable:{eq:null}\n        typeTestDate: { lt: \"2040-06-20T23:19:17.363Z\" }\n        typeTestDateNull: { eq: null }\n        typeTestDateNullable: { eq: null }\n        typeTestDecimal128:{eq:\"{{companyflat_typeTestDecimal128}}\"}\n        typeTestDecimal128Null:{eq:null}\n        typeTestDecimal128Nullable:{eq:null}\n        typeTestInt32:{eq:{{companyflat_typeTestInt32}}}\n        typeTestInt32Null:{eq:null}\n        typeTestInt32Nullable:{eq:null}\n        typeTestLong:{eq:\"{{companyflat_typeTestLong}}\"}\n        typeTestLongNull:{eq:null}\n        typeTestLongNullable:{eq:null}\n        typeTestTripleNested:{\n            a:{\n                b:{\n                    c:{eq:\"CCC\",gt:\"AAA\"}\n                    d:{eq:\"DDDD\"}\n                },\n                e:{eq:\"EEEEE\"}\n            }\n        }\n      }\n    ]\n  }){\n    booleanArrayNonRequired\n    booleanNonRequired\n    booleanRequired\n    dateArrayRequiredInnerNonRequired\n    numberEnumNonRequired\n    numberRequired\n    objectArrayNonRequired {\n      creationDate\n      name\n      people {\n        innerArray\n        within\n        without\n      }\n      status\n      companyRef\n      _id\n    }\n    objectArrayRequired {\n      creationDate\n      name\n      _id\n    }\n    objectIdArrayNonRequiredInnerRequired\n    objectIdRequired\n    objectNestedNonRequired {\n      company\n      flag\n    }\n    objectNestedRequired {\n      age\n      name\n    }\n    predicateTestDateArray\n    predicateTestDateArrayNull\n    predicateTestDateArrayNullable\n    predicateTestDateArrayNullableInner\n    predicateTestDateArrayNullInner\n\n    predicateTestDecimal128Array\n    predicateTestDecimal128ArrayNull\n    predicateTestDecimal128ArrayNullable\n    predicateTestDecimal128ArrayNullableInner\n    predicateTestDecimal128ArrayNullInner\n\n    predicateTestInt32Array\n    predicateTestInt32ArrayNull\n    predicateTestInt32ArrayNullable\n    predicateTestInt32ArrayNullableInner\n    predicateTestInt32ArrayNullInner\n\n    predicateTestLongArray\n    predicateTestLongArrayNull\n    predicateTestLongArrayNullable\n    predicateTestLongArrayNullableInner\n    predicateTestLongArrayNullInner\n\n    predicateTestNumberArray\n    predicateTestNumberArrayNull\n    predicateTestNumberArrayNullable\n    predicateTestNumberArrayNullableInner\n    predicateTestNumberArrayNullInner\n\n    predicateTestObjectIDArray\n    predicateTestObjectIDArrayNull\n    predicateTestObjectIDArrayNullable\n    predicateTestObjectIDArrayNullableInner\n    predicateTestObjectIDArrayNullInner\n\n    predicateTestStringArray\n    predicateTestStringArrayNull\n    predicateTestStringArrayNullable\n    predicateTestStringArrayNullableInner\n    predicateTestStringArrayNullInner\n    status\n    stringArrayNonRequiredInnerRequired\n    stringRequired\n    stringRequiredInnerRequired\n    typeTestBuffer\n    typeTestBufferNull\n    typeTestBufferNullable\n    typeTestDate\n    typeTestDateNull\n    typeTestDateNullable\n    typeTestDecimal128\n    typeTestDecimal128Null\n    typeTestDecimal128Nullable\n    typeTestInt32\n    typeTestInt32Null\n    typeTestInt32Nullable\n    typeTestLong\n    typeTestLongNull\n    typeTestLongNullable\n    typeTestTripleNested {\n      a {\n          b {\n              c\n              d\n          }\n          e\n      }\n    }\n    _id\n  }\n}",
+										"variables": ""
+									},
+									"options": {
+										"graphql": {}
+									}
+								},
+								"url": {
+									"raw": "{{url_graphqltest}}",
+									"host": [
+										"{{url_graphqltest}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "companyflat_predicate_tests_nor",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e54c9e86-ecbc-4078-9ced-60ba88c3eb59",
+										"exec": [
+											"if (!data.errors) {",
+											"   // let companyflat = JSON.parse(responseBody).data.companyflat",
+											"    console.log(pm.environment.get(\"companyflat_dateArrayRequiredInnerNonRequired\"))",
+											"   // pm.environment.set(\"companyflat\", JSON.stringify(companyflat))",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\n  companyflats(predicates:{\n    nor: [\n      {\n            _id: {\n              eq: \"{{companyflat_objectId_0}}\"\n            }\n      }\n    ]\n  }){\n    booleanArrayNonRequired\n    booleanNonRequired\n    booleanRequired\n    dateArrayRequiredInnerNonRequired\n    numberEnumNonRequired\n    numberRequired\n    objectArrayNonRequired {\n      creationDate\n      name\n      people {\n        innerArray\n        within\n        without\n      }\n      status\n      companyRef\n      _id\n    }\n    objectArrayRequired {\n      creationDate\n      name\n      _id\n    }\n    objectIdArrayNonRequiredInnerRequired\n    objectIdRequired\n    objectNestedNonRequired {\n      company\n      flag\n    }\n    objectNestedRequired {\n      age\n      name\n    }\n    predicateTestDateArray\n    predicateTestDateArrayNull\n    predicateTestDateArrayNullable\n    predicateTestDateArrayNullableInner\n    predicateTestDateArrayNullInner\n\n    predicateTestDecimal128Array\n    predicateTestDecimal128ArrayNull\n    predicateTestDecimal128ArrayNullable\n    predicateTestDecimal128ArrayNullableInner\n    predicateTestDecimal128ArrayNullInner\n\n    predicateTestInt32Array\n    predicateTestInt32ArrayNull\n    predicateTestInt32ArrayNullable\n    predicateTestInt32ArrayNullableInner\n    predicateTestInt32ArrayNullInner\n\n    predicateTestLongArray\n    predicateTestLongArrayNull\n    predicateTestLongArrayNullable\n    predicateTestLongArrayNullableInner\n    predicateTestLongArrayNullInner\n\n    predicateTestNumberArray\n    predicateTestNumberArrayNull\n    predicateTestNumberArrayNullable\n    predicateTestNumberArrayNullableInner\n    predicateTestNumberArrayNullInner\n\n    predicateTestObjectIDArray\n    predicateTestObjectIDArrayNull\n    predicateTestObjectIDArrayNullable\n    predicateTestObjectIDArrayNullableInner\n    predicateTestObjectIDArrayNullInner\n\n    predicateTestStringArray\n    predicateTestStringArrayNull\n    predicateTestStringArrayNullable\n    predicateTestStringArrayNullableInner\n    predicateTestStringArrayNullInner\n    status\n    stringArrayNonRequiredInnerRequired\n    stringRequired\n    stringRequiredInnerRequired\n    typeTestBuffer\n    typeTestBufferNull\n    typeTestBufferNullable\n    typeTestDate\n    typeTestDateNull\n    typeTestDateNullable\n    typeTestDecimal128\n    typeTestDecimal128Null\n    typeTestDecimal128Nullable\n    typeTestInt32\n    typeTestInt32Null\n    typeTestInt32Nullable\n    typeTestLong\n    typeTestLongNull\n    typeTestLongNullable\n    typeTestTripleNested {\n      a {\n          b {\n              c\n              d\n          }\n          e\n      }\n    }\n    _id\n  }\n}",
+										"variables": ""
+									},
+									"options": {
+										"graphql": {}
+									}
+								},
+								"url": {
+									"raw": "{{url_graphqltest}}",
+									"host": [
+										"{{url_graphqltest}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "companyflat_predicate_tests_not",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0e125ddf-9b61-48fc-8646-4abb8a486b50",
+										"exec": [
+											"if (!data.errors) {",
+											"   // let companyflat = JSON.parse(responseBody).data.companyflat",
+											"    console.log(pm.environment.get(\"companyflat_dateArrayRequiredInnerNonRequired\"))",
+											"   // pm.environment.set(\"companyflat\", JSON.stringify(companyflat))",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query {\n  companyflats(predicates:{\n      _id: {\n        not: {eq: \"{{companyflat_objectId_0}}\"}\n      }\n  }){\n    booleanArrayNonRequired\n    booleanNonRequired\n    booleanRequired\n    dateArrayRequiredInnerNonRequired\n    numberEnumNonRequired\n    numberRequired\n    objectArrayNonRequired {\n      creationDate\n      name\n      people {\n        innerArray\n        within\n        without\n      }\n      status\n      companyRef\n      _id\n    }\n    objectArrayRequired {\n      creationDate\n      name\n      _id\n    }\n    objectIdArrayNonRequiredInnerRequired\n    objectIdRequired\n    objectNestedNonRequired {\n      company\n      flag\n    }\n    objectNestedRequired {\n      age\n      name\n    }\n    predicateTestDateArray\n    predicateTestDateArrayNull\n    predicateTestDateArrayNullable\n    predicateTestDateArrayNullableInner\n    predicateTestDateArrayNullInner\n\n    predicateTestDecimal128Array\n    predicateTestDecimal128ArrayNull\n    predicateTestDecimal128ArrayNullable\n    predicateTestDecimal128ArrayNullableInner\n    predicateTestDecimal128ArrayNullInner\n\n    predicateTestInt32Array\n    predicateTestInt32ArrayNull\n    predicateTestInt32ArrayNullable\n    predicateTestInt32ArrayNullableInner\n    predicateTestInt32ArrayNullInner\n\n    predicateTestLongArray\n    predicateTestLongArrayNull\n    predicateTestLongArrayNullable\n    predicateTestLongArrayNullableInner\n    predicateTestLongArrayNullInner\n\n    predicateTestNumberArray\n    predicateTestNumberArrayNull\n    predicateTestNumberArrayNullable\n    predicateTestNumberArrayNullableInner\n    predicateTestNumberArrayNullInner\n\n    predicateTestObjectIDArray\n    predicateTestObjectIDArrayNull\n    predicateTestObjectIDArrayNullable\n    predicateTestObjectIDArrayNullableInner\n    predicateTestObjectIDArrayNullInner\n\n    predicateTestStringArray\n    predicateTestStringArrayNull\n    predicateTestStringArrayNullable\n    predicateTestStringArrayNullableInner\n    predicateTestStringArrayNullInner\n    status\n    stringArrayNonRequiredInnerRequired\n    stringRequired\n    stringRequiredInnerRequired\n    typeTestBuffer\n    typeTestBufferNull\n    typeTestBufferNullable\n    typeTestDate\n    typeTestDateNull\n    typeTestDateNullable\n    typeTestDecimal128\n    typeTestDecimal128Null\n    typeTestDecimal128Nullable\n    typeTestInt32\n    typeTestInt32Null\n    typeTestInt32Nullable\n    typeTestLong\n    typeTestLongNull\n    typeTestLongNullable\n    typeTestTripleNested {\n      a {\n          b {\n              c\n              d\n          }\n          e\n      }\n    }\n    _id\n  }\n}",
+										"variables": ""
+									},
+									"options": {
+										"graphql": {}
+									}
+								},
+								"url": {
+									"raw": "{{url_graphqltest}}",
+									"host": [
+										"{{url_graphqltest}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "user",
+					"item": [
+						{
+							"name": "mutation:addUser(firstName: String!, middleName: String, lastName: String!, email: String!, password: String!): AddUserResult!",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "8da03990-9283-4e56-9656-d4dde6b2e01a",
+										"exec": [
+											"let gqlResponse = JSON.parse(responseBody);",
+											"if(!gqlResponse.errors){",
+											"    let gqlVars = JSON.parse(pm.request.body.graphql.variables);",
+											"",
+											"    let user = gqlResponse.data.addUser;",
+											"    user.password = gqlVars.password;",
+											"",
+											"    let users = (pm.environment.get(\"users\") === undefined || !Array.isArray(JSON.parse(pm.environment.get(\"users\")))) ? [] : JSON.parse(pm.environment.get(\"users\"));",
+											"",
+											"    users.push(user);",
+											"",
+											"    pm.environment.set(\"userId_\", user._id);",
+											"    pm.environment.set(\"user\", JSON.stringify(user));",
+											"    pm.environment.set(\"password\", user.password);",
+											"    pm.environment.set(\"email\", user.email);",
+											"    pm.environment.set(\"users\", JSON.stringify(users));",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation AddUser($firstName:String!,$lastName:String!,$email:String!,$password:String!) {\n  addUser(firstName:$firstName, lastName:$lastName, email:$email, password:$password){\n    firstName\n    lastName\n    email\n    _id\n  }\n}",
+										"variables": "{\n  \"firstName\": \"Russel\",\n  \"lastName\": \"Gauthier\",\n  \"email\": \"gauthier.russel10@gmail.com\",\n  \"password\": \"123asdfqwer!\"\n}\n"
+									},
+									"options": {
+										"graphql": {}
+									}
+								},
+								"url": {
+									"raw": "{{url_graphql}}",
+									"host": [
+										"{{url_graphql}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "mutation:login(email: String!, password: String!): LoginResult!",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d4c012b2-a845-49ab-a1eb-3add7662ee02",
+										"exec": [
+											"let gqlResponse = JSON.parse(responseBody);",
+											"if(!gqlResponse.errors){",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation Login($email:String!,$password:String!){\n  login(email:$email, password:$password){\n    success\n  }\n}",
+										"variables": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+									},
+									"options": {
+										"graphql": {}
+									}
+								},
+								"url": {
+									"raw": "{{url_graphql}}",
+									"host": [
+										"{{url_graphql}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "mutation:logout(): Boolean!",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation {\n  logout\n}",
+										"variables": ""
+									},
+									"options": {
+										"graphql": {}
+									}
+								},
+								"url": {
+									"raw": "{{url_graphql}}",
+									"host": [
+										"{{url_graphql}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "graphtest",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost/graphql",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query GetUserWithFirstName($firstNameList: [String]){\n    a:users(predicates: {\n        firstName: {\n            in: $firstNameList\n        }\n    }){\n        firstName\n        lastName\n        _id\n    }\n}",
+								"variables": "{\n\t\"firstNameList\":[\"Dustin\", \"Russel\"]\t\n}"
+							},
+							"options": {
+								"graphql": {}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"variable": [
+		{
+			"id": "e23369e3-ee3d-4325-975c-f4ef4f650984",
+			"key": "url",
+			"value": "localhost:4001",
+			"type": "string"
+		},
+		{
+			"id": "84d4241b-e01b-4a77-93e4-9d597de1d9d3",
+			"key": "todo",
+			"value": "todo",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

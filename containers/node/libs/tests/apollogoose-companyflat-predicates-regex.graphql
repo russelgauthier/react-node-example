@@ -1,0 +1,10 @@
+query {
+    companyflats(
+        predicates: {
+            stringRequired: { regex: "^[a-zA-Z]*$" }
+        }
+    ) {
+        stringRequired
+        _id
+    }
+}

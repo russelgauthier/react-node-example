@@ -1,0 +1,9 @@
+/*  Fixes reset done by antd  */
+svg {
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+}
+li {
+  list-style-type: none !important;
+  padding-bottom: 0.5em;
+}

@@ -1,0 +1,6 @@
+FROM bitnami/mongodb:4.4.0-debian-10-r6
+
+ARG MONGO__PORT_CONTAINER
+
+#Setting main thread
+EXPOSE $MONGO__PORT_CONTAINER

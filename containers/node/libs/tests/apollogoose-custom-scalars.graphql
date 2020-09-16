@@ -1,0 +1,233 @@
+query {
+    companyflat {
+        typeTestBuffer
+        typeTestBufferNull
+        typeTestBufferNullable
+        typeTestDate
+        typeTestDateNull
+        typeTestDateNullable
+        typeTestDecimal128
+        typeTestDecimal128Null
+        typeTestDecimal128Nullable
+        typeTestInt32
+        typeTestInt32Null
+        typeTestInt32Nullable
+        typeTestLong
+        typeTestLongNull
+        typeTestLongNullable
+        typeTestMap
+        typeTestMapNull
+        typeTestMapNullable
+        typeTestMixed
+        typeTestMixedNull
+        typeTestMixedNullable
+        predicateTestInt32ArrayNull
+        predicateTestInt32ArrayNullable
+        predicateTestInt32ArrayNullInner
+        predicateTestInt32ArrayNullableInner
+        predicateTestStringArrayNull
+        predicateTestStringArrayNullable
+        predicateTestStringArrayNullInner
+        predicateTestStringArrayNullableInner
+    }
+
+    ### Array - Buffer ###
+    typeTestBufferArrayOutput
+    typeTestBufferArrayOutputMongoose
+    typeTestBufferArrayOutputMongooseNull
+    typeTestBufferArrayOutputMongooseNullable
+    typeTestBufferArrayOutputMongooseInnerNull
+    typeTestStringArrayOutputMongooseInnerNullable
+    ttbarm_float:typeTestBufferArrayRelayMongoose(inpt: [1.333,3.4,4])
+    ttbarm_int:typeTestBufferArrayRelayMongoose(inpt: [1,3,4])
+    ttbarm_string:typeTestBufferArrayRelayMongoose(inpt: ["0.AAA", "1.BBB", "2.CCC"])
+    ttbarmn_0: typeTestBufferArrayRelayMongooseNullable(inpt: null)
+    ttarmn_1: typeTestBufferArrayRelayMongooseNullable(inpt: [])
+    ttarmin_0: typeTestBufferArrayRelayMongooseInnerNullable(inpt: [])
+    # ttarmin_1:typeTestBufferArrayRelayMongooseInnerNullable(inpt:null) #Fails - Good
+    ttarmin_1: typeTestBufferArrayRelayMongooseInnerNullable(
+        inpt: [null, "4.AAA", 3.33]
+    )
+
+    ### Array - Int32 ###
+    typeTestInt32ArrayOutput
+    typeTestInt32ArrayOutputMongoose
+    typeTestInt32ArrayOutputMongooseNull
+    typeTestInt32ArrayOutputMongooseNullable
+    typeTestInt32ArrayOutputMongooseInnerNull
+    typeTestInt32ArrayOutputMongooseInnerNullable
+    typeTestInt32ArrayRelayMongoose(inpt: [444,99,94])
+    tti32armn_0: typeTestInt32ArrayRelayMongooseNullable(inpt: null)
+    tti32armn_1: typeTestInt32ArrayRelayMongooseNullable(inpt: [])
+    tti32armn_2: typeTestInt32ArrayRelayMongooseNullable(inpt: [null, 3])
+    tti32armin_0: typeTestInt32ArrayRelayMongooseInnerNullable(inpt: [])
+    # #tti32armin_1:typeTestInt32ArrayRelayMongooseInnerNullable(inpt:null) #Fails - Good
+    tti32armin_2: typeTestInt32ArrayRelayMongooseInnerNullable(
+        inpt: [null, 44444]
+    )
+
+    ### Array - String ###
+    typeTestStringArrayOutput
+    typeTestStringArrayOutputMongoose
+    typeTestStringArrayOutputMongooseNull
+    typeTestStringArrayOutputMongooseNullable
+    typeTestStringArrayOutputMongooseInnerNull
+    typeTestStringArrayOutputMongooseInnerNullable
+    typeTestStringArrayRelayMongoose(inpt: ["0.AAA", "1.BBB", "2.CCC"])
+    ttsarmn_0: typeTestStringArrayRelayMongooseNullable(inpt: null)
+    ttsarmn_1: typeTestStringArrayRelayMongooseNullable(inpt: [])
+    ttsarmn_2: typeTestStringArrayRelayMongooseNullable(inpt: [null, "3.AAA"])
+    ttsarmin_0: typeTestStringArrayRelayMongooseInnerNullable(inpt: [])
+    #ttsarmin_1:typeTestStringArrayRelayMongooseInnerNullable(inpt:null) #Fails - Good
+    ttsarmin_2: typeTestStringArrayRelayMongooseInnerNullable(
+        inpt: [null, "4.AAA"]
+    )
+
+    ### Buffer ###
+    typeTestBufferOutputMongoose
+    typeTestBufferOutputMongooseNull
+    typeTestBufferOutputMongooseNullable
+    typeTestBufferRelayMongoose(inpt:"ABCD")
+    typeTestBufferRelayMongooseNull(inpt:null)
+    ttbrmn_float:typeTestBufferRelayMongooseNullable(inpt:213.3)
+    ttbrmn_id:typeTestBufferRelayMongooseNullable(inpt:"SDFSDFFDSSFD")
+    ttbrmn_int:typeTestBufferRelayMongooseNullable(inpt:213)
+    ttbrmn_string:typeTestBufferRelayMongooseNullable(inpt:"string_test")
+
+    ### Date ###
+    typeTestDateInput(inpt: "2020-01-01T12:00:00.000Z")
+    typeTestDateOutput
+    typeTestDateOutputFromLiteral
+    typeTestDateOutputMongoose
+    typeTestDateOutputMongooseNullable
+    typeTestDateOutputMongooseNull
+    typeTestDateOutputNull
+    ttDater_0: typeTestDateRelay(inpt: null)
+    ttDater_1: typeTestDateRelay(inpt: 2013)
+    ttDater_2: typeTestDateRelay(inpt: "2013")
+    ttDater_3: typeTestDateRelay(inpt: "2013-01-14T12:00:15.000Z")
+    ttDaterm_1: typeTestDateRelayMongoose(inpt: 3223)
+    ttDaterm_2: typeTestDateRelayMongoose(inpt: "2020-01-01T15:00:00.234")
+    typeTestDateRelayMongooseNullable(inpt: null)
+
+    ### Decimal128 ###
+    ttd128I_0: typeTestDecimal128Input(inpt: 1233)
+    ttd128I_1: typeTestDecimal128Input(inpt: 1233.3)
+    ttd128I_2: typeTestDecimal128Input(inpt: "123E3")
+    typeTestDecimal128Output
+    typeTestDecimal128OutputNull
+    typeTestDecimal128OutputBigInt
+    typeTestDecimal128OutputFromLiteral
+    typeTestDecimal128OutputMongoose
+    typeTestDecimal128OutputMongooseNull
+    typeTestDecimal128OutputMongooseNullable
+    ttdr_0: typeTestDecimal128Relay(inpt: 32432432.333)
+    ttdr_1: typeTestDecimal128Relay(inpt: 32432432)
+    ttdr_2: typeTestDecimal128Relay(inpt: "32432432.333E6")
+    ttdr_3: typeTestDecimal128Relay(inpt: null)
+    ttd128rm_0: typeTestDecimal128RelayMongoose(inpt: 32423455.3)
+    ttd128rm_1: typeTestDecimal128RelayMongoose(inpt: 32423455)
+    ttd128rm_2: typeTestDecimal128RelayMongoose(inpt: "32423455.3E333")
+    typeTestDecimal128RelayMongooseNullable(inpt: null)
+
+    ### Int32 ###
+    typeTestInt32Input(inpt: 33232)
+    typeTestInt32Output
+    typeTestInt32OutputMongoose
+    typeTestInt32OutputMongooseNull
+    typeTestInt32OutputMongooseNullable
+    typeTestInt32OutputFromLiteral
+    ttint32r_0: typeTestInt32Relay(inpt: 12345678)
+    ttint32r_1: typeTestInt32Relay(inpt: null)
+    ttint32rm_1: typeTestInt32RelayMongoose(inpt: 3223)
+    ttint32rm_2: typeTestInt32RelayMongoose(inpt: 2147483647)
+    #ttint32rm_3:typeTestInt32RelayMongoose(inpt:2147483648) #Out of bounds
+    ttint32rm_4: typeTestInt32RelayMongoose(inpt: -2147483648)
+    #ttint32rm_5:typeTestInt32RelayMongoose(inpt:-2147483649) #Out of bounds
+    typeTestInt32RelayMongooseNullable(inpt: null)
+
+    ### JSON ###
+    typeTestJSONInput(
+        inpt: {
+            a: 333
+            b: 333.1
+            c: true
+            d: "stringValue0"
+            e: null
+            f: { a: 33, b: 9, c: { a: ["324234", false, { a: 99 }] } }
+            g: [3333, 1, 3, "sadf"]
+        }
+    )
+    typeTestJSONOutput
+    typeTestJSONOutputFromLiteral
+    typeTestJSONOutputMongoose
+    typeTestJSONOutputMongooseNull
+    typeTestJSONOutputMongooseNullable
+    typeTestJSONOutputNull
+    ttjsonr_0: typeTestJSONRelay(
+        inpt: {
+            a: 333
+            b: 333.1
+            c: true
+            d: "stringValue0"
+            e: null
+            f: { a: 33, b: 9, c: { a: ["324234", false, { a: 99 }] } }
+            g: [3333, 1, 3, "sadf"]
+        }
+    )
+    ttjsonr_1: typeTestJSONRelay(inpt: null)
+    typeTestJSONRelayMongoose(
+        inpt: {
+            a: 333
+            b: 333.1
+            c: true
+            d: "stringValue0"
+            e: null
+            f: { a: 33, b: 9, c: { a: ["324234", false, { a: 99 }] } }
+            g: [3333, 1, 3, "sadf"]
+        }
+    )
+    typeTestJSONRelayMongooseNullable(inpt: null)
+
+    ### Long ###
+    ttli_0: typeTestLongInput(inpt: 3232)
+    ttli_1: typeTestLongInput(inpt: 3232.1)
+    ttli_2: typeTestLongInput(inpt: "3232.2")
+    typeTestLongOutput
+    typeTestLongOutputBigInt
+    typeTestLongOutputFromLiteral
+    typeTestLongOutputMongoose
+    typeTestLongOutputMongooseNull
+    typeTestLongOutputMongooseNullable
+    typeTestLongOutputNull
+    ttlr_0: typeTestLongRelay(inpt: 324234324)
+    ttlr_1: typeTestLongRelay(inpt: 324234324.1)
+    ttlr_2: typeTestLongRelay(inpt: "9223372036854775807")
+    ttlr_3: typeTestLongRelay(inpt: "9223372036854775808")
+    ttlr_4: typeTestLongRelay(inpt: "-9223372036854775808")
+    ttlr_5: typeTestLongRelay(inpt: "-9223372036854775809")
+    ttlr_6: typeTestLongRelay(inpt: null)
+    ttlrm_0: typeTestLongRelayMongoose(inpt: 1111153)
+    ttlrm_1: typeTestLongRelayMongoose(inpt: 1111153.1)
+    ttlrm_2: typeTestLongRelayMongoose(inpt: "1111153.2")
+    typeTestLongRelayMongooseNullable(inpt: null)
+
+    ### Map ###
+    typeTestMapInput(
+        inpt: { a: 333, b: 333.1, c: true, d: "stringValue0", e: null }
+    )
+    typeTestMapOutput
+    typeTestMapOutputFromLiteral
+    typeTestMapOutputMongoose
+    typeTestMapOutputMongooseNull
+    typeTestMapOutputMongooseNullable
+    typeTestMapOutputNull
+    ttmapr_0: typeTestMapRelay(
+        inpt: { a: 333, b: 333.1, c: true, d: "stringValue1", e: null }
+    )
+    ttmapr_1: typeTestMapRelay(inpt: null)
+    typeTestMapRelayMongoose(
+        inpt: { a: 333, b: 333.1, c: true, d: "stringValue2", e: null }
+    )
+    typeTestMapRelayMongooseNullable(inpt: null)
+}

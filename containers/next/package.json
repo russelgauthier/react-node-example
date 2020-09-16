@@ -1,0 +1,48 @@
+{
+  "name": "nextjs",
+  "version": "0.1.7",
+  "description": "NextJS - Server-Side React Server",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_OPTIONS='--inspect=0' next dev -p 80",
+    "build": "next build",
+    "start": "next start -p 80"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/russelgauthier/ax-paas.git"
+  },
+  "author": "Russel Gauthier",
+  "license": "See LICENCE file",
+  "bugs": {
+    "url": "https://github.com/russelgauthier/ax-paas/issues"
+  },
+  "homepage": "https://github.com/russelgauthier/ax-paas#readme",
+  "dependencies": {
+    "@apollo/react-hooks": "^4.0.0",
+    "@apollo/client": "^3.1.4",
+    "@types/youtube": "^0.0.39",
+    "@u-wave/react-vimeo": "^0.9.0",
+    "@zeit/next-sass": "^1.0.1",
+    "antd": "^4.6.2",
+    "classnames": "^2.2.6",
+    "formik": "^2.1.5",
+    "geoip-lite": "^1.4.2",
+    "graphql": "^15.3.0",
+    "graphql-tag": "^2.11.0",
+    "isomorphic-fetch": "^2.2.1",
+    "next": "^9.5.3",
+    "next-compose-plugins": "^2.2.0",
+    "next-svgr": "^0.0.2",
+    "node-sass": "^4.14.1",
+    "nookies": "^2.4.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-youtube": "^7.12.0",
+    "subscriptions-transport-ws": "^0.9.18",
+    "swr": "^0.3.2",
+    "use-persisted-state": "^0.3.0",
+    "webpack": "^4.44.1",
+    "yup": "^0.29.3"
+  }
+}

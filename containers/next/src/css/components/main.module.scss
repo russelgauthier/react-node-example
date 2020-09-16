@@ -1,0 +1,42 @@
+@import 'src/css/includes/main';
+
+.topLevel {
+  background-color: rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0;
+
+  > :first-child {
+    background-color: white;
+    display: flex;
+    width: 90%;
+    border-left: $border;
+    border-right: $border;
+    -webkit-box-shadow: 6px 0px 5px -5px $secondary-colour, -6px 0px 5px -5px $secondary-colour;
+    -moz-box-shadow: 6px 0px 5px -5px $secondary-colour, -6px 0px 5px -5px $secondary-colour;
+    box-shadow: 6px 0px 5px -5px $secondary-colour, -6px 0px 5px -5px $secondary-colour;
+
+    > * {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 1024px){
+  .topLevel {
+    > :first-child {
+      width: 100%;
+    }
+  }
+}
+@media screen and (max-width: 768px){
+  .topLevel {
+    > :first-child {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+}
